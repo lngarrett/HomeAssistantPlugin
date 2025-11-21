@@ -9,19 +9,18 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.main import HomeAssistant
+from HomeAssistantPlugin.main import HomeAssistant
 
 
 class TestMainOnChangeBaseSwitch(unittest.TestCase):
 
     @patch.object(HomeAssistant, "add_action_holder")
     @patch.object(HomeAssistant, "register")
-    @patch("de_gensyn_HomeAssistantPlugin.main.HomeAssistantAction")
-    @patch("de_gensyn_HomeAssistantPlugin.main.PerformAction")
-    @patch("de_gensyn_HomeAssistantPlugin.main.ActionHolder")
-    @patch("de_gensyn_HomeAssistantPlugin.main.HomeAssistantBackend")
-    @patch("de_gensyn_HomeAssistantPlugin.main.ConnectionSettings")
-    def test_on_change_base_switch_active(self, settings_mock, _, __, ___, ____, _____, ______):
+    @patch("HomeAssistantPlugin.main.PerformAction")
+    @patch("HomeAssistantPlugin.main.ActionHolder")
+    @patch("HomeAssistantPlugin.main.HomeAssistantBackend")
+    @patch("HomeAssistantPlugin.main.ConnectionSettings")
+    def test_on_change_base_switch_active(self, settings_mock, _, __, ___, ____, _____):
         set_setting_mock = Mock()
 
         settings_mock.return_value = settings_mock
@@ -52,12 +51,11 @@ class TestMainOnChangeBaseSwitch(unittest.TestCase):
 
     @patch.object(HomeAssistant, "add_action_holder")
     @patch.object(HomeAssistant, "register")
-    @patch("de_gensyn_HomeAssistantPlugin.main.HomeAssistantAction")
-    @patch("de_gensyn_HomeAssistantPlugin.main.PerformAction")
-    @patch("de_gensyn_HomeAssistantPlugin.main.ActionHolder")
-    @patch("de_gensyn_HomeAssistantPlugin.main.HomeAssistantBackend")
-    @patch("de_gensyn_HomeAssistantPlugin.main.ConnectionSettings")
-    def test_on_change_base_switch_not_active(self, settings_mock, _, __, ___, ____, _____, ______):
+    @patch("HomeAssistantPlugin.main.PerformAction")
+    @patch("HomeAssistantPlugin.main.ActionHolder")
+    @patch("HomeAssistantPlugin.main.HomeAssistantBackend")
+    @patch("HomeAssistantPlugin.main.ConnectionSettings")
+    def test_on_change_base_switch_not_active(self, settings_mock, _, __, ___, ____, _____):
         set_setting_mock = Mock()
 
         settings_mock.return_value = settings_mock

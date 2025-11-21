@@ -8,8 +8,8 @@ from typing import Dict, Callable, Any, List, Set, Optional
 
 from loguru import logger as log
 
-from de_gensyn_HomeAssistantPlugin.backend import backend_const
-from de_gensyn_HomeAssistantPlugin.backend.home_assistant_websocket import HomeAssistantWebsocket
+from HomeAssistantPlugin.backend import backend_const
+from HomeAssistantPlugin.backend.home_assistant_websocket import HomeAssistantWebsocket
 
 class HomeAssistantBackend:
     """

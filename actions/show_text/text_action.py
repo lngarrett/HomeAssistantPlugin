@@ -9,15 +9,15 @@ from GtkHelper.GenerativeUI.ComboRow import ComboRow
 from GtkHelper.GenerativeUI.ExpanderRow import ExpanderRow
 from GtkHelper.GenerativeUI.ScaleRow import ScaleRow
 from GtkHelper.GenerativeUI.SwitchRow import SwitchRow
-from de_gensyn_HomeAssistantPlugin.actions.cores.base_core.base_core import requires_initialization
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_core import CustomizationCore
-from de_gensyn_HomeAssistantPlugin.actions.show_text import text_const
-from de_gensyn_HomeAssistantPlugin.actions.show_text import text_helper
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_row import TextRow
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_settings import ShowTextSettings
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_window import TextWindow
+from HomeAssistantPlugin.actions.cores.base_core.base_core import requires_initialization
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions.cores.customization_core.customization_core import CustomizationCore
+from HomeAssistantPlugin.actions.show_text import text_const
+from HomeAssistantPlugin.actions.show_text import text_helper
+from HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
+from HomeAssistantPlugin.actions.show_text.text_row import TextRow
+from HomeAssistantPlugin.actions.show_text.text_settings import ShowTextSettings
+from HomeAssistantPlugin.actions.show_text.text_window import TextWindow
 
 
 class ShowText(CustomizationCore):

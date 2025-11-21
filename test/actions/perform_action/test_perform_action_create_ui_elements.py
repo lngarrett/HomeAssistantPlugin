@@ -9,17 +9,17 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.perform_action import perform_const
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action import PerformAction
+from HomeAssistantPlugin.actions.perform_action import perform_const
+from HomeAssistantPlugin.actions.perform_action.perform_action import PerformAction
 
 
 class TestPerformActionCreateUiElements(unittest.TestCase):
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore._create_ui_elements')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action.ComboRow')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action.ExpanderRow')
+        'HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore._create_ui_elements')
+    @patch('HomeAssistantPlugin.actions.perform_action.perform_action.ComboRow')
+    @patch('HomeAssistantPlugin.actions.perform_action.perform_action.ExpanderRow')
     def test_create_ui_elements_success(self, expander_row_mock, combo_row_mock, create_ui_elements_mock, _):
         instance = PerformAction()
         instance._create_ui_elements()

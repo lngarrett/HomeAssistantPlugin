@@ -6,14 +6,14 @@ from unittest.mock import patch, Mock
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend import HomeAssistantBackend
-from de_gensyn_HomeAssistantPlugin.backend import backend_const
+from HomeAssistantPlugin.backend.home_assistant_backend import HomeAssistantBackend
+from HomeAssistantPlugin.backend import backend_const
 
 
 class TestBackendOnDisconnect(unittest.TestCase):
 
     @patch.object(HomeAssistantBackend, 'connect')
-    @patch("de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend.log.info")
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.log.info")
     def test_on_disconnect_wrong_websocket(self, log_mock, _):
         wrong_mock = Mock()
         right_mock = Mock()
@@ -25,8 +25,8 @@ class TestBackendOnDisconnect(unittest.TestCase):
         log_mock.assert_not_called()
 
     @patch.object(HomeAssistantBackend, 'connect')
-    @patch("de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend.sleep")
-    @patch("de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend.log.info")
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.sleep")
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.log.info")
     def test_on_disconnect_websocket_changed_during_sleep(self, log_mock, sleep_mock, connect_mock):
         action_mock = Mock()
         action_ready_callbacks = [action_mock] * 3
@@ -44,8 +44,8 @@ class TestBackendOnDisconnect(unittest.TestCase):
         self.assertEqual(1, connect_mock.call_count)  # called once during instantiation
 
     @patch.object(HomeAssistantBackend, 'connect')
-    @patch("de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend.sleep")
-    @patch("de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend.log.info")
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.sleep")
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.log.info")
     def test_on_disconnect_success(self, log_mock, sleep_mock, connect_mock):
         action_mock = Mock()
         action_ready_callbacks = [action_mock] * 3

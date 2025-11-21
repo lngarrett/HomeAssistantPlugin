@@ -5,9 +5,9 @@ from typing import List, Dict, Any
 
 import gi
 
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization import Customization
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_settings import CustomizationSettings
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions.cores.customization_core.customization import Customization
+from HomeAssistantPlugin.actions.cores.customization_core.customization_settings import CustomizationSettings
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")

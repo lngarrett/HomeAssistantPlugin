@@ -6,14 +6,14 @@ from unittest.mock import patch, Mock
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend import HomeAssistantBackend
-from de_gensyn_HomeAssistantPlugin.backend import backend_const
+from HomeAssistantPlugin.backend.home_assistant_backend import HomeAssistantBackend
+from HomeAssistantPlugin.backend import backend_const
 
 
 class TestBackendLoadActions(unittest.TestCase):
 
     @patch.object(HomeAssistantBackend, 'connect')
-    @patch("de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend.log.error")
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.log.error")
     def test_load_actions_send_recv_not_successful(self, log_mock, _):
         send_and_recv_mock = Mock()
         send_and_recv_mock.return_value = (False, {}, "test_error")

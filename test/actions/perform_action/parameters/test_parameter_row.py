@@ -11,8 +11,8 @@ absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.par
 sys.path.insert(0, absolute_plugin_path)
 
 
-from de_gensyn_HomeAssistantPlugin import const as base_const
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row import ParameterRow
+from HomeAssistantPlugin import const as base_const
+from HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row import ParameterRow
 
 
 class TestParameterEntryRow(unittest.TestCase):
@@ -76,7 +76,7 @@ class TestParameterEntryRow(unittest.TestCase):
         self.assertRaises(NotImplementedError, instance.set_value, "test_value")
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_row.ParameterRow.get_parameter_value')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_row.ParameterRow.get_parameter_value')
     def test_on_change_active(self, get_parameter_value_mock):
         get_parameter_value_mock.return_value = "test_value"
         required = False
@@ -87,7 +87,7 @@ class TestParameterEntryRow(unittest.TestCase):
         instance.action.settings.set_parameter.assert_called_once_with(instance.field_name, "test_value")
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_row.ParameterRow.get_parameter_value')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_row.ParameterRow.get_parameter_value')
     def test_on_change_not_active(self, get_parameter_value_mock):
         get_parameter_value_mock.return_value = "test_value"
         required = False
@@ -106,7 +106,7 @@ def create_instance(required: bool, parameters: Dict={}, field_name: str="test_f
     action_core_mock.settings.remove_parameter = Mock()
     field_name = field_name
 
-    with patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_row.CheckButton') as check_button_mock:
+    with patch('HomeAssistantPlugin.actions.perform_action.parameters.parameter_row.CheckButton') as check_button_mock:
         check_button_mock.return_value = check_button_mock
         check_button_mock.set_active = Mock()
         check_button_mock.set_sensitive = Mock()

@@ -3,11 +3,11 @@ The module for the Home Assistant customization row.
 """
 from typing import List, Dict
 
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_helper
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_row import CustomizationRow
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_settings import CustomizationSettings
-from de_gensyn_HomeAssistantPlugin.actions.show_icon import icon_const, icon_helper
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
+from HomeAssistantPlugin.actions.cores.customization_core import customization_helper
+from HomeAssistantPlugin.actions.cores.customization_core.customization_row import CustomizationRow
+from HomeAssistantPlugin.actions.cores.customization_core.customization_settings import CustomizationSettings
+from HomeAssistantPlugin.actions.show_icon import icon_const, icon_helper
+from HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
 
 
 class IconRow(CustomizationRow):

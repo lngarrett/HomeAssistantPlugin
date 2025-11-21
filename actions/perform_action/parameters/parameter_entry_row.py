@@ -1,7 +1,7 @@
 """Module for the ParameterEntryRow."""
 from GtkHelper.GenerativeUI.EntryRow import EntryRow
 
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_row import ParameterRow
+from HomeAssistantPlugin.actions.perform_action.parameters.parameter_row import ParameterRow
 
 
 class ParameterEntryRow(ParameterRow, EntryRow):

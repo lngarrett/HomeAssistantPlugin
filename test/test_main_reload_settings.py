@@ -9,19 +9,18 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.main import HomeAssistant
+from HomeAssistantPlugin.main import HomeAssistant
 
 
 class TestMainReloadSettings(unittest.TestCase):
 
     @patch.object(HomeAssistant, "add_action_holder")
     @patch.object(HomeAssistant, "register")
-    @patch("de_gensyn_HomeAssistantPlugin.main.HomeAssistantAction")
-    @patch("de_gensyn_HomeAssistantPlugin.main.PerformAction")
-    @patch("de_gensyn_HomeAssistantPlugin.main.ActionHolder")
-    @patch("de_gensyn_HomeAssistantPlugin.main.ConnectionSettings")
-    @patch("de_gensyn_HomeAssistantPlugin.main.HomeAssistantBackend")
-    def test_reload_settings_success(self, backend_mock, settings_mock, _, __, ___, ____, _____):
+    @patch("HomeAssistantPlugin.main.PerformAction")
+    @patch("HomeAssistantPlugin.main.ActionHolder")
+    @patch("HomeAssistantPlugin.main.ConnectionSettings")
+    @patch("HomeAssistantPlugin.main.HomeAssistantBackend")
+    def test_reload_settings_success(self, backend_mock, settings_mock, _, __, ___, ____):
         set_host_mock = Mock()
         set_port_mock = Mock()
         set_ssl_mock = Mock()

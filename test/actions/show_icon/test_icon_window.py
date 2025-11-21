@@ -6,15 +6,15 @@ from unittest.mock import patch, Mock
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.show_icon import icon_const
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_window import IconWindow
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
+from HomeAssistantPlugin.actions.show_icon import icon_const
+from HomeAssistantPlugin.actions.show_icon.icon_window import IconWindow
+from HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
 
 
 class TestIconWindow(unittest.TestCase):
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_window.CustomizationWindow.__init__',
+        'HomeAssistantPlugin.actions.show_icon.icon_window.CustomizationWindow.__init__',
         autospec=True)
     @patch.object(IconWindow, "set_title")
     @patch.object(IconWindow, "_after_init")
@@ -55,7 +55,7 @@ class TestIconWindow(unittest.TestCase):
         after_init_mock.assert_called_once()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_window.CustomizationWindow._set_default_values')
+        'HomeAssistantPlugin.actions.show_icon.icon_window.CustomizationWindow._set_default_values')
     def test_set_default_values(self, super_set_default_values_mock):
         instance = IconWindow.__new__(IconWindow)
         instance.color = Mock()
@@ -74,7 +74,7 @@ class TestIconWindow(unittest.TestCase):
         instance.opacity_entry.set_text.assert_called_once_with(str(icon_const.DEFAULT_ICON_OPACITY))
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow._set_current_values')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow._set_current_values')
     def test_set_current_values_no_current(self, super_set_current_values_mock):
         instance = IconWindow.__new__(IconWindow)
         instance.current = None
@@ -84,7 +84,7 @@ class TestIconWindow(unittest.TestCase):
         super_set_current_values_mock.assert_not_called()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow._set_current_values')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow._set_current_values')
     def test_set_current_values_with_current(self, super_set_current_values_mock):
         instance = IconWindow.__new__(IconWindow)
         instance.current = Mock()
@@ -119,7 +119,7 @@ class TestIconWindow(unittest.TestCase):
         instance.opacity_entry.set_text.assert_called_once_with("200")
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow.on_add_button')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow.on_add_button')
     def test_on_add_button_super_false(self, super_on_add_button_mock):
         super_on_add_button_mock.return_value = False
 
@@ -131,7 +131,7 @@ class TestIconWindow(unittest.TestCase):
         instance.check_icon.get_active.assert_not_called()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow.on_add_button')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow.on_add_button')
     def test_on_add_button_icon_not_valid(self, super_on_add_button_mock):
         super_on_add_button_mock.return_value = True
 
@@ -149,7 +149,7 @@ class TestIconWindow(unittest.TestCase):
         instance.icon.add_css_class.assert_called_once_with(icon_const.ERROR)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow.on_add_button')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow.on_add_button')
     def test_on_add_button_no_customization_selected(self, super_on_add_button_mock):
         super_on_add_button_mock.return_value = True
 
@@ -172,9 +172,9 @@ class TestIconWindow(unittest.TestCase):
         instance.check_opacity.add_css_class.assert_called_once_with(icon_const.ERROR)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow.on_add_button')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow.on_add_button')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_window.IconCustomization')
+        'HomeAssistantPlugin.actions.show_icon.icon_window.IconCustomization')
     def test_on_add_button_success(self, icon_customization_mock, super_on_add_button_mock):
         super_on_add_button_mock.return_value = True
 
@@ -231,7 +231,7 @@ class TestIconWindow(unittest.TestCase):
         instance.destroy.assert_called_once()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow._on_widget_changed')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_window.CustomizationWindow._on_widget_changed')
     def test_on_widget_changed(self, super_on_widget_changed_mock):
         instance = IconWindow.__new__(IconWindow)
         instance.icon = Mock()

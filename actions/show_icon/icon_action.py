@@ -7,13 +7,13 @@ from typing import List
 from GtkHelper.GenerativeUI.ColorButtonRow import ColorButtonRow
 from GtkHelper.GenerativeUI.EntryRow import EntryRow
 from GtkHelper.GenerativeUI.ScaleRow import ScaleRow
-from de_gensyn_HomeAssistantPlugin.actions.cores.base_core.base_core import requires_initialization
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_core import CustomizationCore
-from de_gensyn_HomeAssistantPlugin.actions.show_icon import icon_const, icon_helper
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_row import IconRow
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_window import IconWindow
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_settings import ShowIconSettings
+from HomeAssistantPlugin.actions.cores.base_core.base_core import requires_initialization
+from HomeAssistantPlugin.actions.cores.customization_core.customization_core import CustomizationCore
+from HomeAssistantPlugin.actions.show_icon import icon_const, icon_helper
+from HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
+from HomeAssistantPlugin.actions.show_icon.icon_row import IconRow
+from HomeAssistantPlugin.actions.show_icon.icon_window import IconWindow
+from HomeAssistantPlugin.actions.show_icon.icon_settings import ShowIconSettings
 
 
 class ShowIcon(CustomizationCore):

@@ -18,13 +18,13 @@ class TestCustomizationWindow(unittest.TestCase):
             "CheckButton", "Scale", "Orientation", "Switch"
         ]
         for name in gtk_names:
-            p = patch(f"de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.{name}")
+            p = patch(f"HomeAssistantPlugin.actions.cores.customization_core.customization_window.{name}")
             self.gtk_patches[name] = p
             p.start()
 
         # Patch base_const and customization_const
-        self.base_const_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.base_const")
-        self.customization_const_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.customization_const")
+        self.base_const_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_window.base_const")
+        self.customization_const_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_window.customization_const")
         self.mock_base_const = self.base_const_patch.start()
         self.mock_customization_const = self.customization_const_patch.start()
         self.mock_base_const.CONNECT_CLICKED = "clicked"
@@ -53,7 +53,7 @@ class TestCustomizationWindow(unittest.TestCase):
         self.mock_customization_const.EMPTY_STRING = ""
 
         # Patch Customization
-        self.customization_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.Customization")
+        self.customization_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_window.Customization")
         self.MockCustomization = self.customization_patch.start()
 
         self.gtk_window_init_patch = patch(
@@ -63,7 +63,7 @@ class TestCustomizationWindow(unittest.TestCase):
         self.mock_gtk_window_init = self.gtk_window_init_patch.start()
 
         # Import after patching
-        from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_window
+        from HomeAssistantPlugin.actions.cores.customization_core import customization_window
         self.customization_window = customization_window
 
         # Patch instance methods that would require real GTK widgets
@@ -75,8 +75,8 @@ class TestCustomizationWindow(unittest.TestCase):
         self.mock_set_modal = self.set_modal_patch.start()
 
         # Patch Grid.attach and Box.append for layout logic
-        self.grid_attach_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.Grid.attach")
-        self.box_append_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.Box.append")
+        self.grid_attach_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_window.Grid.attach")
+        self.box_append_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_window.Box.append")
         self.mock_grid_attach = self.grid_attach_patch.start()
         self.mock_box_append = self.box_append_patch.start()
 
@@ -88,19 +88,19 @@ class TestCustomizationWindow(unittest.TestCase):
             "pack_start", "add_attribute", "set_halign", "set_sensitive", "set_modal"
         ]:
             self.widget_patchers[method] = patch(
-                f"de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.Button.{method}"
+                f"HomeAssistantPlugin.actions.cores.customization_core.customization_window.Button.{method}"
             )
             self.widget_patchers[method].start()
             self.widget_patchers[method] = patch(
-                f"de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.Entry.{method}"
+                f"HomeAssistantPlugin.actions.cores.customization_core.customization_window.Entry.{method}"
             )
             self.widget_patchers[method].start()
             self.widget_patchers[method] = patch(
-                f"de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.DropDown.{method}"
+                f"HomeAssistantPlugin.actions.cores.customization_core.customization_window.DropDown.{method}"
             )
             self.widget_patchers[method].start()
             self.widget_patchers[method] = patch(
-                f"de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.Label.{method}"
+                f"HomeAssistantPlugin.actions.cores.customization_core.customization_window.Label.{method}"
             )
             self.widget_patchers[method].start()
 
@@ -280,7 +280,7 @@ class TestCustomizationWindow(unittest.TestCase):
         check = MagicMock()
         combo = MagicMock()
         # Patch ComboBox so that window._create_combo uses our combo mock
-        with patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window.DropDown",
+        with patch("HomeAssistantPlugin.actions.cores.customization_core.customization_window.DropDown",
                    return_value=combo):
             combo.get_selected.return_value = 1  # Simulate selected
             # Clear previous connect_rows so we only have new ones for this call

@@ -10,9 +10,9 @@ from gi.repository.Gtk import Button, Align
 
 from GtkHelper.GenerativeUI.ExpanderRow import ExpanderRow
 
-from de_gensyn_HomeAssistantPlugin.actions import const as base_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.base_core.base_core import BaseCore, requires_initialization
+from HomeAssistantPlugin.actions import const as base_const
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions.cores.base_core.base_core import BaseCore, requires_initialization
 
 
 class CustomizationCore(BaseCore):

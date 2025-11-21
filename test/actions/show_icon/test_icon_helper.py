@@ -6,9 +6,9 @@ from unittest.mock import MagicMock, patch
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.show_icon import icon_helper, icon_const
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_settings import ShowIconSettings
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
+from HomeAssistantPlugin.actions.show_icon import icon_helper, icon_const
+from HomeAssistantPlugin.actions.show_icon.icon_settings import ShowIconSettings
+from HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
 
 class TestIconHelper(unittest.TestCase):
     def setUp(self):
@@ -35,7 +35,7 @@ class TestIconHelper(unittest.TestCase):
         settings.get_icon.return_value = "thermometer"
         settings.get_customizations.return_value = []
         state = {"attributes": {icon_const.ATTRIBUTE_ICON: "thermometer"}}
-        with patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_helper.convert_color_list_to_hex", return_value="#FF0000FF"):
+        with patch("HomeAssistantPlugin.actions.cores.customization_core.customization_helper.convert_color_list_to_hex", return_value="#FF0000FF"):
             icon, scale = icon_helper.get_icon(state, settings, is_connected=True)
             self.assertIn('<svg', icon)
             self.assertEqual(scale, round(settings.get_scale.return_value / 100, 100))
@@ -239,7 +239,7 @@ class TestGetIconSettingsUncovered(unittest.TestCase):
         self.settings.get_customizations.return_value = [customization]
         # Should not replace values since custom_icon_value conversion fails
 
-        with patch("de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_helper.logging.error") as log_mock:
+        with patch("HomeAssistantPlugin.actions.show_icon.icon_helper.logging.error") as log_mock:
             name, color, scale, opacity = icon_helper._get_icon_settings(self.state, self.settings)
             log_mock.assert_called_once_with("Could not convert custom value to float: %s", "not_a_float")
         self.assertNotEqual(name, "custom")

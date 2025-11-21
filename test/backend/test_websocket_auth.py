@@ -6,8 +6,8 @@ from unittest.mock import patch, Mock, call
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.backend import backend_const
-from de_gensyn_HomeAssistantPlugin.backend.home_assistant_websocket import HomeAssistantWebsocket
+from HomeAssistantPlugin.backend import backend_const
+from HomeAssistantPlugin.backend.home_assistant_websocket import HomeAssistantWebsocket
 
 
 class TestWebsocketAuth(unittest.TestCase):
@@ -34,7 +34,7 @@ class TestWebsocketAuth(unittest.TestCase):
     @patch.object(HomeAssistantWebsocket, 'send_and_recv')
     @patch('loguru.logger.error')
     @patch('loguru.logger.info')
-    @patch('de_gensyn_HomeAssistantPlugin.backend.home_assistant_websocket.sleep')
+    @patch('HomeAssistantPlugin.backend.home_assistant_websocket.sleep')
     def test_auth_auth_ok_in_third_try(self, sleep_mock, log_info_mock, log_error_mock, send_and_recv_mock, send_mock):
         auth_ok = "{\"type\": \"auth_ok\"}"
         token = "abc"

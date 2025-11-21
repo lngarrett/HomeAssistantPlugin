@@ -9,12 +9,12 @@ sys.path.insert(0, absolute_plugin_path)
 
 # Patch gi.repository.Gdk.RGBA so tests work without GTK installed
 with patch("gi.repository.Gdk.RGBA") as MockRGBA:
-    from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_helper
+    from HomeAssistantPlugin.actions.cores.customization_core import customization_helper
 
 class TestCustomizationHelper(unittest.TestCase):
     def setUp(self):
         # Patch inside setUp so that RGBA is a MagicMock for every test
-        self.rgba_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_helper.RGBA")
+        self.rgba_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_helper.RGBA")
         self.MockRGBA = self.rgba_patch.start()
 
     def tearDown(self):

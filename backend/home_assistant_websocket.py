@@ -6,7 +6,7 @@ from threading import Semaphore
 from time import sleep
 from typing import Any, Callable, Dict, Tuple
 
-from de_gensyn_HomeAssistantPlugin.backend import backend_const
+from HomeAssistantPlugin.backend import backend_const
 from loguru import logger as log
 from websocket import WebSocketApp, WebSocketException, WebSocketAddressException
 

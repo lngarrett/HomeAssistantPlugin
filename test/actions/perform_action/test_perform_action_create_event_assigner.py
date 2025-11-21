@@ -10,14 +10,14 @@ absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.abs
 sys.path.insert(0, absolute_plugin_path)
 
 from src.backend.DeckManagement.InputIdentifier import Input
-from de_gensyn_HomeAssistantPlugin.actions.perform_action import perform_const
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action import PerformAction
+from HomeAssistantPlugin.actions.perform_action import perform_const
+from HomeAssistantPlugin.actions.perform_action.perform_action import PerformAction
 
 
 class TestPerformActionCreateEventAssigner(unittest.TestCase):
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action.EventAssigner')
+    @patch('HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.perform_action.perform_action.EventAssigner')
     @patch.object(PerformAction, 'add_event_assigner')
     def test_create_event_assigner_success(self, add_event_assigner_mock, event_assigner_mock, _):
         instance = PerformAction()

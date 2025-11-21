@@ -10,10 +10,10 @@ from GtkHelper.GenerativeUI.ComboRow import ComboRow
 from GtkHelper.GenerativeUI.ExpanderRow import ExpanderRow
 from src.backend.DeckManagement.InputIdentifier import Input
 from src.backend.PluginManager.EventAssigner import EventAssigner
-from de_gensyn_HomeAssistantPlugin.actions.perform_action import perform_const
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters import parameters_helper
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_settings import PerformActionSettings
-from de_gensyn_HomeAssistantPlugin.actions.cores.base_core.base_core import BaseCore, requires_initialization
+from HomeAssistantPlugin.actions.perform_action import perform_const
+from HomeAssistantPlugin.actions.perform_action.parameters import parameters_helper
+from HomeAssistantPlugin.actions.perform_action.perform_settings import PerformActionSettings
+from HomeAssistantPlugin.actions.cores.base_core.base_core import BaseCore, requires_initialization
 
 
 class PerformAction(BaseCore):

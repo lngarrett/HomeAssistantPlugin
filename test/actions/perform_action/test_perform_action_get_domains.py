@@ -9,12 +9,12 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action import PerformAction
+from HomeAssistantPlugin.actions.perform_action.perform_action import PerformAction
 
 
 class TestPerformActionGetDomains(unittest.TestCase):
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
     def test_get_domains_success(self, _):
         plugin_base_mock = Mock()
         plugin_base_mock.backend = Mock()

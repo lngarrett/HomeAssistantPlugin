@@ -4,10 +4,10 @@ Module for text related operations.
 import logging as log
 from typing import Dict, List, Any
 
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_const
-from de_gensyn_HomeAssistantPlugin.actions.show_text import text_const
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_settings import ShowTextSettings
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions.show_text import text_const
+from HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
+from HomeAssistantPlugin.actions.show_text.text_settings import ShowTextSettings
 
 
 def get_text(state: Dict, settings: ShowTextSettings, is_connected: bool) -> (str, str, int, str, int, str):

@@ -6,15 +6,15 @@ from unittest.mock import Mock, patch
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.show_text import text_const
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_row import TextRow
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
+from HomeAssistantPlugin.actions.show_text import text_const
+from HomeAssistantPlugin.actions.show_text.text_row import TextRow
+from HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
 
 class TestTextRow(unittest.TestCase):
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_row.CustomizationRow.__init__', autospec=True)
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_row.text_helper')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_row.customization_helper')
+    @patch('HomeAssistantPlugin.actions.show_text.text_row.CustomizationRow.__init__', autospec=True)
+    @patch('HomeAssistantPlugin.actions.show_text.text_row.text_helper')
+    @patch('HomeAssistantPlugin.actions.show_text.text_row.customization_helper')
     @patch.object(TextRow, '_init_title')
     @patch.object(TextRow, 'set_title')
     def test_init(self, set_title_mock, init_title_mock, customization_helper_mock, text_helper_mock, super_init_mock):

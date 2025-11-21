@@ -9,15 +9,15 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions import const as base_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_core import CustomizationCore
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions import const as base_const
+from HomeAssistantPlugin.actions.cores.customization_core.customization_core import CustomizationCore
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
 
 
 class TestCustomizationCore(unittest.TestCase):
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore.__init__')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore.__init__')
     def test_init(self, super_init_mock):
         window_implementation = "123"
         customization_implementation = "456"
@@ -33,7 +33,7 @@ class TestCustomizationCore(unittest.TestCase):
         self.assertEqual(instance.customization_implementation, customization_implementation)
         self.assertEqual(instance.row_implementation, row_implementation)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore.on_ready')
+    @patch('HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore.on_ready')
     def test_on_ready_not_connected(self, super_on_ready_mock):
         instance = CustomizationCore.__new__(CustomizationCore)
         instance.plugin_base = Mock()
@@ -49,7 +49,7 @@ class TestCustomizationCore(unittest.TestCase):
         self.assertFalse(instance.initialized)
         instance._reload.assert_not_called()
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore.on_ready')
+    @patch('HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore.on_ready')
     def test_on_ready_connected(self, super_on_ready_mock):
         instance = CustomizationCore.__new__(CustomizationCore)
         instance.plugin_base = Mock()
@@ -65,11 +65,11 @@ class TestCustomizationCore(unittest.TestCase):
         instance._reload.assert_called_once()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore._create_ui_elements')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore._create_ui_elements')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_core.Button')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_core.Button')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_core.ExpanderRow')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_core.ExpanderRow')
     def test_create_ui_elements(self, expander_row_mock, button_mock, super_create_ui_elements_mock):
         button_mock.return_value = button_mock
         expander_row_mock.return_value = expander_row_mock
@@ -216,7 +216,7 @@ class TestCustomizationCore(unittest.TestCase):
         instance.refresh.assert_called_once()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore._set_enabled_disabled')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore._set_enabled_disabled')
     def test_set_enabled_disabled_no_domain(self, super_set_enabled_disabled_mock):
         instance = CustomizationCore.__new__(CustomizationCore)
         instance.initialized = True
@@ -238,7 +238,7 @@ class TestCustomizationCore(unittest.TestCase):
         instance.customization_expander.set_expanded.assert_called_once_with(False)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore._set_enabled_disabled')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore._set_enabled_disabled')
     def test_set_enabled_disabled_no_entity(self, super_set_enabled_disabled_mock):
         instance = CustomizationCore.__new__(CustomizationCore)
         instance.initialized = True
@@ -260,7 +260,7 @@ class TestCustomizationCore(unittest.TestCase):
         instance.customization_expander.set_expanded.assert_called_once_with(False)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore._set_enabled_disabled')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore._set_enabled_disabled')
     def test_set_enabled_disabled_no_customizations(self, super_set_enabled_disabled_mock):
         instance = CustomizationCore.__new__(CustomizationCore)
         instance.initialized = True
@@ -283,7 +283,7 @@ class TestCustomizationCore(unittest.TestCase):
         instance.customization_expander.set_expanded.assert_called_once_with(False)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore._set_enabled_disabled')
+        'HomeAssistantPlugin.actions.cores.customization_core.customization_core.BaseCore._set_enabled_disabled')
     def test_set_enabled_disabled_with_customizations(self, super_set_enabled_disabled_mock):
         instance = CustomizationCore.__new__(CustomizationCore)
         instance.initialized = True

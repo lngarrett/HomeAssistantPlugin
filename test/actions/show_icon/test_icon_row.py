@@ -6,15 +6,15 @@ from unittest.mock import Mock, patch
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.show_icon import icon_const
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_row import IconRow
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
+from HomeAssistantPlugin.actions.show_icon import icon_const
+from HomeAssistantPlugin.actions.show_icon.icon_row import IconRow
+from HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
 
 class TestIconRow(unittest.TestCase):
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_row.CustomizationRow.__init__', autospec=True)
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_row.icon_helper')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_row.customization_helper')
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_row.CustomizationRow.__init__', autospec=True)
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_row.icon_helper')
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_row.customization_helper')
     @patch.object(IconRow, '_init_title')
     @patch.object(IconRow, 'set_title')
     def test_init(self, set_title_mock, init_title_mock, customization_helper_mock, icon_helper_mock, super_init_mock):

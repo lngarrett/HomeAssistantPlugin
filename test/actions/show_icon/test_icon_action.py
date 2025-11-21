@@ -9,16 +9,16 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.show_icon import icon_const
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_action import ShowIcon
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_row import IconRow
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_settings import ShowIconSettings
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_window import IconWindow
+from HomeAssistantPlugin.actions.show_icon import icon_const
+from HomeAssistantPlugin.actions.show_icon.icon_action import ShowIcon
+from HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
+from HomeAssistantPlugin.actions.show_icon.icon_row import IconRow
+from HomeAssistantPlugin.actions.show_icon.icon_settings import ShowIconSettings
+from HomeAssistantPlugin.actions.show_icon.icon_window import IconWindow
 
 class TestShowIcon(unittest.TestCase):
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_action.CustomizationCore.__init__')
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_action.CustomizationCore.__init__')
     def test_init(self, super_init_mock):
         arg = "abc"
         kwargs = {"key": "value"}
@@ -64,10 +64,10 @@ class TestShowIcon(unittest.TestCase):
 
         self.assertEqual(instance.get_config_rows(), expected_rows)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_action.CustomizationCore._create_ui_elements')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_action.EntryRow')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_action.ColorButtonRow')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_action.ScaleRow')
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_action.CustomizationCore._create_ui_elements')
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_action.EntryRow')
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_action.ColorButtonRow')
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_action.ScaleRow')
     def test_create_ui_elements(self, scale_row_mock, color_button_row_mock, entry_row_mock, super_create_ui_elements_mock):
         instance = ShowIcon.__new__(ShowIcon)
         instance._reload = Mock()
@@ -99,7 +99,7 @@ class TestShowIcon(unittest.TestCase):
             )
         ])
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_action.CustomizationCore._set_enabled_disabled')
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_action.CustomizationCore._set_enabled_disabled')
     def test_set_enabled_disabled_no_domain(self, super_set_enabled_disabled_mock):
         lm = {
             icon_const.LABEL_ICON_NO_ENTITY: "No entity selected"
@@ -127,7 +127,7 @@ class TestShowIcon(unittest.TestCase):
         instance.opacity.widget.set_sensitive.assert_called_once_with(False)
         instance.opacity.widget.set_subtitle.assert_called_once_with(lm[icon_const.LABEL_ICON_NO_ENTITY])
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_action.CustomizationCore._set_enabled_disabled')
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_action.CustomizationCore._set_enabled_disabled')
     def test_set_enabled_disabled_no_entity(self, super_set_enabled_disabled_mock):
         lm = {
             icon_const.LABEL_ICON_NO_ENTITY: "No entity selected"
@@ -155,7 +155,7 @@ class TestShowIcon(unittest.TestCase):
         instance.opacity.widget.set_sensitive.assert_called_once_with(False)
         instance.opacity.widget.set_subtitle.assert_called_once_with(lm[icon_const.LABEL_ICON_NO_ENTITY])
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_action.CustomizationCore._set_enabled_disabled')
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_action.CustomizationCore._set_enabled_disabled')
     def test_set_enabled_disabled_success(self, super_set_enabled_disabled_mock):
         instance = ShowIcon.__new__(ShowIcon)
         instance.initialized = True
@@ -178,7 +178,7 @@ class TestShowIcon(unittest.TestCase):
         instance.opacity.widget.set_sensitive.assert_called_once_with(True)
         instance.opacity.widget.set_subtitle.assert_called_once_with(icon_const.EMPTY_STRING)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_action.icon_helper')
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_action.icon_helper')
     def test_refresh_not_initialized_not_connected(self, icon_helper_mock):
         instance = ShowIcon.__new__(ShowIcon)
         instance.initialized = False
@@ -218,7 +218,7 @@ class TestShowIcon(unittest.TestCase):
         instance._load_customizations.assert_not_called()
         instance._set_enabled_disabled.assert_not_called()
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_action.icon_helper')
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_action.icon_helper')
     def test_refresh_state_from_backend(self, icon_helper_mock):
         state = {"state_key": "state_value"}
 
@@ -242,7 +242,7 @@ class TestShowIcon(unittest.TestCase):
         instance._load_customizations.assert_called_once()
         instance._set_enabled_disabled.assert_called_once()
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_action.icon_helper')
+    @patch('HomeAssistantPlugin.actions.show_icon.icon_action.icon_helper')
     def test_refresh_state_as_parameter(self, icon_helper_mock):
         state = {"state_key": "state_value"}
 

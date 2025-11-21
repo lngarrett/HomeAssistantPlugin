@@ -2,10 +2,10 @@
 
 from typing import Tuple
 
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
-from de_gensyn_HomeAssistantPlugin.actions.show_text import text_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_settings import CustomizationSettings
+from HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
+from HomeAssistantPlugin.actions.show_text import text_const
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions.cores.customization_core.customization_settings import CustomizationSettings
 
 DEFAULT_SETTINGS = {
     text_const.SETTING_POSITION: text_const.DEFAULT_POSITION,

@@ -1,7 +1,7 @@
 """Module to manage Home Assistant connection action settings."""
 from typing import Optional
 
-from de_gensyn_HomeAssistantPlugin import const as base_const
+from HomeAssistantPlugin import const as base_const
 
 class ConnectionSettings:
     """

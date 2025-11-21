@@ -10,14 +10,14 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.perform_action import perform_const
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_settings import PerformActionSettings
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_settings import DEFAULT_SETTINGS
+from HomeAssistantPlugin.actions.perform_action import perform_const
+from HomeAssistantPlugin.actions.perform_action.perform_settings import PerformActionSettings
+from HomeAssistantPlugin.actions.perform_action.perform_settings import DEFAULT_SETTINGS
 
 
 class TestPerformActionSettingsInit(unittest.TestCase):
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.cores.base_core.base_settings.BaseSettings.__init__', autospec=True)
+    @patch('HomeAssistantPlugin.actions.cores.base_core.base_settings.BaseSettings.__init__', autospec=True)
     def test_init_with_default(self, super_init_mock):
         action_mock = Mock()
 
@@ -44,8 +44,8 @@ class TestPerformActionSettingsInit(unittest.TestCase):
                                                 action_mock)  # only called with instance because of autospec=True
         action_mock.set_settings.assert_called_once_with(settings_expected)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.cores.base_core.base_settings.BaseSettings.__init__', autospec=True)
-    @patch('de_gensyn_HomeAssistantPlugin.actions.cores.base_core.base_settings.BaseSettings.reset')
+    @patch('HomeAssistantPlugin.actions.cores.base_core.base_settings.BaseSettings.__init__', autospec=True)
+    @patch('HomeAssistantPlugin.actions.cores.base_core.base_settings.BaseSettings.reset')
     def test_perform_action_settings_success(self, super_reset_mock, super_init_mock):
         action_mock = Mock()
 

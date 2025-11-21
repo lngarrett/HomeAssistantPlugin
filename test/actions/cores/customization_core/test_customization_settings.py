@@ -10,20 +10,20 @@ sys.path.insert(0, absolute_plugin_path)
 class TestCustomizationSettings(unittest.TestCase):
     def setUp(self):
         # Patch customization_const.SETTING_CUSTOMIZATIONS
-        self.const_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_settings.customization_const")
+        self.const_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_settings.customization_const")
         self.mock_const = self.const_patch.start()
         self.mock_const.SETTING_CUSTOMIZATIONS = "customizations"
 
         # Patch BaseSettings
-        self.basesettings_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_settings.BaseSettings")
+        self.basesettings_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_settings.BaseSettings")
         self.MockBaseSettings = self.basesettings_patch.start()
 
         # Patch Customization
-        self.customization_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_settings.Customization")
+        self.customization_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_settings.Customization")
         self.MockCustomization = self.customization_patch.start()
 
         # Import after patching
-        from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_settings
+        from HomeAssistantPlugin.actions.cores.customization_core import customization_settings
         self.customization_settings = customization_settings
 
         # Setup mocks for dependencies

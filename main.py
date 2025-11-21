@@ -18,19 +18,17 @@ sys.path.insert(0, ABSOLUTE_PLUGIN_PATH)
 from src.backend.PluginManager.ActionHolder import ActionHolder
 from src.backend.PluginManager.PluginBase import PluginBase
 
-from de_gensyn_HomeAssistantPlugin import const
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_const import SHOW_ICON
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_action import ShowIcon
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_const import SHOW_TEXT
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_action import ShowText
-from de_gensyn_HomeAssistantPlugin.actions.HomeAssistantAction.const import HOME_ASSISTANT_ACTION
-from de_gensyn_HomeAssistantPlugin.actions.HomeAssistantAction.home_assistant_action import HomeAssistantAction
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_const import PERFORM_ACTION
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action import PerformAction
-from de_gensyn_HomeAssistantPlugin.backend import backend_const
+from HomeAssistantPlugin import const
+from HomeAssistantPlugin.actions.show_icon.icon_const import SHOW_ICON
+from HomeAssistantPlugin.actions.show_icon.icon_action import ShowIcon
+from HomeAssistantPlugin.actions.show_text.text_const import SHOW_TEXT
+from HomeAssistantPlugin.actions.show_text.text_action import ShowText
+from HomeAssistantPlugin.actions.perform_action.perform_const import PERFORM_ACTION
+from HomeAssistantPlugin.actions.perform_action.perform_action import PerformAction
+from HomeAssistantPlugin.backend import backend_const
 
-from de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend import HomeAssistantBackend
-from de_gensyn_HomeAssistantPlugin.connection_settings.connection_settings import ConnectionSettings
+from HomeAssistantPlugin.backend.home_assistant_backend import HomeAssistantBackend
+from HomeAssistantPlugin.connection_settings.connection_settings import ConnectionSettings
 
 
 class HomeAssistant(PluginBase):  # pylint: disable=too-few-public-methods
@@ -46,43 +44,35 @@ class HomeAssistant(PluginBase):  # pylint: disable=too-few-public-methods
         self.token_entry: Optional[PasswordEntryRow] = None
         self.connection_status: Optional[EntryRow] = None
 
-        self.home_assistant_action_holder = ActionHolder(
-            plugin_base=self,
-            action_base=HomeAssistantAction,
-            action_id="de_gensyn_HomeAssistantPlugin::HomeAssistantAction",
-            action_name=HOME_ASSISTANT_ACTION
-        )
-
         self.perform_action_action_holder = ActionHolder(
             plugin_base=self,
             action_base=PerformAction,
-            action_id="de_gensyn_HomeAssistantPlugin::PerformAction",
+            action_id="HomeAssistantPlugin::PerformAction",
             action_name=PERFORM_ACTION
         )
 
         self.show_icon_action_holder = ActionHolder(
             plugin_base=self,
             action_base=ShowIcon,
-            action_id="de_gensyn_HomeAssistantPlugin::ShowIcon",
+            action_id="HomeAssistantPlugin::ShowIcon",
             action_name=SHOW_ICON
         )
 
         self.show_text_action_holder = ActionHolder(
             plugin_base=self,
             action_base=ShowText,
-            action_id="de_gensyn_HomeAssistantPlugin::ShowText",
+            action_id="HomeAssistantPlugin::ShowText",
             action_name=SHOW_TEXT
         )
 
-        self.add_action_holder(self.home_assistant_action_holder)
         self.add_action_holder(self.perform_action_action_holder)
         self.add_action_holder(self.show_icon_action_holder)
         self.add_action_holder(self.show_text_action_holder)
 
         self.register(
             plugin_name=const.HOME_ASSISTANT,
-            github_repo="https://github.com/gensyn/de_gensyn_HomeAssistantPlugin",
-            plugin_version="2.0.0",
+            github_repo="https://github.com/gensyn/HomeAssistantPlugin",
+            plugin_version="1.0.0",
             app_version="1.5.0-beta"
         )
 

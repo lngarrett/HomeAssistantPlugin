@@ -6,8 +6,8 @@ from unittest.mock import MagicMock
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.show_icon import icon_settings, icon_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions.show_icon import icon_settings, icon_const
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
 
 
 class TestShowIconSettings(unittest.TestCase):

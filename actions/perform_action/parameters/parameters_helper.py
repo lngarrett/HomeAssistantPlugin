@@ -1,12 +1,12 @@
 """Module for action parameter operations."""
-from de_gensyn_HomeAssistantPlugin.actions.perform_action import perform_const
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_combo_row import \
+from HomeAssistantPlugin.actions.perform_action import perform_const
+from HomeAssistantPlugin.actions.perform_action.parameters.parameter_combo_row import \
     ParameterComboRow
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row import \
+from HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row import \
     ParameterEntryRow
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row import \
+from HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row import \
     ParameterScaleRow
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_switch_row import \
+from HomeAssistantPlugin.actions.perform_action.parameters.parameter_switch_row import \
     ParameterSwitchRow
 
 

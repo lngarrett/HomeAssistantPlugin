@@ -9,14 +9,14 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action import PerformAction
+from HomeAssistantPlugin.actions.perform_action.perform_action import PerformAction
 
 
 class TestPerformActionOnChangeAction(unittest.TestCase):
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.load_parameters')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.load_parameters')
     @patch.object(PerformAction, '_reload')
     def test_on_change_action_not_initialized(self, reload_mock, load_parameters_mock, _):
         settings_mock = Mock()
@@ -31,9 +31,9 @@ class TestPerformActionOnChangeAction(unittest.TestCase):
         load_parameters_mock.assert_not_called()
         reload_mock.assert_not_called()
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.load_parameters')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.load_parameters')
     @patch.object(PerformAction, '_reload')
     def test_on_change_action_success(self, reload_mock, load_parameters_mock, _):
         settings_mock = Mock()

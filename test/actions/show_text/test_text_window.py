@@ -6,15 +6,15 @@ from unittest.mock import patch, Mock, call, ANY
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.show_text import text_const
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_window import TextWindow
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
+from HomeAssistantPlugin.actions.show_text import text_const
+from HomeAssistantPlugin.actions.show_text.text_window import TextWindow
+from HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
 
 
 class TestTextWindow(unittest.TestCase):
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.__init__',
+        'HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.__init__',
         autospec=True)
     @patch.object(TextWindow, "set_title")
     @patch.object(TextWindow, "_after_init")
@@ -83,9 +83,9 @@ class TestTextWindow(unittest.TestCase):
         instance.custom_text.set_visible.assert_called_once_with(True)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow._set_default_values')
+        'HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow._set_default_values')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.customization_helper')
+        'HomeAssistantPlugin.actions.show_text.text_window.customization_helper')
     def test_set_default_values(self, customization_helper_mock, super_set_default_values_mock):
         instance = TextWindow.__new__(TextWindow)
 
@@ -142,7 +142,7 @@ class TestTextWindow(unittest.TestCase):
         instance.show_line_break.set_active.assert_called_once_with(text_const.DEFAULT_UNIT_LINE_BREAK)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow._set_current_values')
+        'HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow._set_current_values')
     def test_set_current_values_no_current(self, super_current_values_mock):
         instance = TextWindow.__new__(TextWindow)
         instance.current = None
@@ -152,9 +152,9 @@ class TestTextWindow(unittest.TestCase):
         super_current_values_mock.assert_not_called()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow._set_current_values')
+        'HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow._set_current_values')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.customization_helper')
+        'HomeAssistantPlugin.actions.show_text.text_window.customization_helper')
     def test_set_current_values_success(self, customization_helper_mock, super_current_values_mock):
         instance = TextWindow.__new__(TextWindow)
         instance.current = Mock()
@@ -244,7 +244,7 @@ class TestTextWindow(unittest.TestCase):
         instance.check_line_break.set_active.assert_called_once_with(True)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.on_add_button')
+        'HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.on_add_button')
     def test_on_add_button_super_not_ok(self, super_on_add_button_mock):
         super_on_add_button_mock.return_value = False
 
@@ -257,7 +257,7 @@ class TestTextWindow(unittest.TestCase):
         instance.check_position.assert_not_called()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.on_add_button')
+        'HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.on_add_button')
     def test_on_add_button_wrong_position(self, super_on_add_button_mock):
         super_on_add_button_mock.return_value = True
 
@@ -275,7 +275,7 @@ class TestTextWindow(unittest.TestCase):
         instance.check_text_attribute.assert_not_called()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.on_add_button')
+        'HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.on_add_button')
     def test_on_add_button_wrong_attribute(self, super_on_add_button_mock):
         super_on_add_button_mock.return_value = True
 
@@ -297,7 +297,7 @@ class TestTextWindow(unittest.TestCase):
         instance.check_round.assert_not_called()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.on_add_button')
+        'HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.on_add_button')
     def test_on_add_button_no_check_selected(self, super_on_add_button_mock):
         super_on_add_button_mock.return_value = True
 
@@ -338,7 +338,7 @@ class TestTextWindow(unittest.TestCase):
         instance.check_line_break.add_css_class.assert_called_once_with(text_const.ERROR)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.on_add_button')
+        'HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.on_add_button')
     def test_on_add_button_attribute_not_a_number(self, super_on_add_button_mock):
         super_on_add_button_mock.return_value = True
 
@@ -382,11 +382,11 @@ class TestTextWindow(unittest.TestCase):
         instance.entry_value.add_css_class.assert_called_once_with(text_const.ERROR)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.on_add_button')
+        'HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow.on_add_button')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.customization_helper')
+        'HomeAssistantPlugin.actions.show_text.text_window.customization_helper')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.TextCustomization')
+        'HomeAssistantPlugin.actions.show_text.text_window.TextCustomization')
     def test_on_add_button_success(self, text_customization_mock, customization_helper_mock, super_on_add_button_mock):
         super_on_add_button_mock.return_value = True
 
@@ -480,7 +480,7 @@ class TestTextWindow(unittest.TestCase):
         instance.destroy.assert_called_once()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow._on_widget_changed')
+        'HomeAssistantPlugin.actions.show_text.text_window.CustomizationWindow._on_widget_changed')
     def test_on_widget_changed(self, super_on_widget_changed_mock):
         instance = TextWindow.__new__(TextWindow)
         instance.check_position = Mock()

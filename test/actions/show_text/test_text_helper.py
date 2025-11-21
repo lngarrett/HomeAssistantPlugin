@@ -10,8 +10,8 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_const
-from de_gensyn_HomeAssistantPlugin.actions.show_text import text_const, text_helper
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions.show_text import text_const, text_helper
 
 
 class TestTextCustomization(unittest.TestCase):
@@ -36,10 +36,10 @@ class TestTextCustomization(unittest.TestCase):
         settings.get_attribute.assert_not_called()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.show_text.text_helper.log.error')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_helper._get_text')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_helper.get_value')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_helper._replace_values')
+        'HomeAssistantPlugin.actions.show_text.text_helper.log.error')
+    @patch('HomeAssistantPlugin.actions.show_text.text_helper._get_text')
+    @patch('HomeAssistantPlugin.actions.show_text.text_helper.get_value')
+    @patch('HomeAssistantPlugin.actions.show_text.text_helper._replace_values')
     def test_get_text_success(self, replace_values_mock, get_value_mock, get_text_mock, log_mock):
         settings = Mock()
         settings.get_position.return_value = "top-left"
@@ -110,7 +110,7 @@ class TestTextCustomization(unittest.TestCase):
 
         self.assertEqual("on", result)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_helper._get_text')
+    @patch('HomeAssistantPlugin.actions.show_text.text_helper._get_text')
     def test_get_value_text_length(self, get_text_mock):
         settings = Mock()
         settings.get_attribute.return_value = "state"

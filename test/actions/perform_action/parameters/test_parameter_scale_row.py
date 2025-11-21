@@ -9,24 +9,24 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row import ParameterScaleRow
+from HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row import ParameterScaleRow
 
 
 class TestParameterScaleRow(unittest.TestCase):
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow.__init__')
     def test_init(self, parameter_row_init_mock, scale_row_init_mock):
         create_instance(scale_row_init_mock, parameter_row_init_mock, False)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.get_number')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.get_number')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow.__init__')
     def test_get_parameter_value(self, parameter_row_init_mock, scale_row_init_mock, get_number_mock):
         instance = create_instance(scale_row_init_mock, parameter_row_init_mock, False)
         get_number_mock.return_value = 3.5
@@ -35,11 +35,11 @@ class TestParameterScaleRow(unittest.TestCase):
         self.assertEqual(result, 3.5)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.set_value')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.set_value')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow.__init__')
     def test_set_value_check_not_active(self, parameter_row_init_mock, scale_row_init_mock, scale_row_set_value_mock):
         instance = create_instance(scale_row_init_mock, parameter_row_init_mock, False)
         instance.check.get_active = Mock(return_value=False)
@@ -49,11 +49,11 @@ class TestParameterScaleRow(unittest.TestCase):
         scale_row_set_value_mock.assert_not_called()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.set_value')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.set_value')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow.__init__')
     def test_set_value_check_active(self, parameter_row_init_mock, scale_row_init_mock, scale_row_set_value_mock):
         instance = create_instance(scale_row_init_mock, parameter_row_init_mock, False)
         instance.check.get_active = Mock(return_value=True)
@@ -63,13 +63,13 @@ class TestParameterScaleRow(unittest.TestCase):
         scale_row_set_value_mock.assert_called_once_with(instance, 5.5)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow._value_changed')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow._value_changed')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow._on_change')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow._on_change')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow.__init__')
     def test_value_changed_required(self, parameter_row_init_mock, parameter_row_on_change_mock, scale_row_init_mock,
                                     scale_row_value_changed_mock):
         instance = create_instance(scale_row_init_mock, parameter_row_init_mock, True)
@@ -81,13 +81,13 @@ class TestParameterScaleRow(unittest.TestCase):
         parameter_row_on_change_mock.assert_called_once_with(instance)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow._value_changed')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow._value_changed')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ScaleRow.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow._on_change')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow._on_change')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_scale_row.ParameterRow.__init__')
     def test_value_changed_not_required(self, parameter_row_init_mock, parameter_row_on_change_mock,
                                         scale_row_init_mock, scale_row_value_changed_mock):
         instance = create_instance(scale_row_init_mock, parameter_row_init_mock, False)

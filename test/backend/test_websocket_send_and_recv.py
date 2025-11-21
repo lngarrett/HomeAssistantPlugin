@@ -7,8 +7,8 @@ from unittest.mock import patch, Mock
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.backend import backend_const
-from de_gensyn_HomeAssistantPlugin.backend.home_assistant_websocket import HomeAssistantWebsocket
+from HomeAssistantPlugin.backend import backend_const
+from HomeAssistantPlugin.backend.home_assistant_websocket import HomeAssistantWebsocket
 
 
 class TestWebsocketSendAndRecv(unittest.TestCase):

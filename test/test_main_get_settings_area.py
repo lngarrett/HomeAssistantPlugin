@@ -9,26 +9,25 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin import const
-from de_gensyn_HomeAssistantPlugin.main import HomeAssistant
-from de_gensyn_HomeAssistantPlugin.backend import backend_const
+from HomeAssistantPlugin import const
+from HomeAssistantPlugin.main import HomeAssistant
+from HomeAssistantPlugin.backend import backend_const
 
 
 class TestMainGetSettingsArea(unittest.TestCase):
 
     @patch.object(HomeAssistant, "add_action_holder")
     @patch.object(HomeAssistant, "register")
-    @patch("de_gensyn_HomeAssistantPlugin.main.HomeAssistantAction")
-    @patch("de_gensyn_HomeAssistantPlugin.main.PerformAction")
-    @patch("de_gensyn_HomeAssistantPlugin.main.ActionHolder")
-    @patch("de_gensyn_HomeAssistantPlugin.main.EntryRow")
-    @patch("de_gensyn_HomeAssistantPlugin.main.SwitchRow")
-    @patch("de_gensyn_HomeAssistantPlugin.main.PreferencesGroup")
-    @patch("de_gensyn_HomeAssistantPlugin.main.PasswordEntryRow")
-    @patch("de_gensyn_HomeAssistantPlugin.main.ConnectionSettings")
-    @patch("de_gensyn_HomeAssistantPlugin.main.HomeAssistantBackend")
+    @patch("HomeAssistantPlugin.main.PerformAction")
+    @patch("HomeAssistantPlugin.main.ActionHolder")
+    @patch("HomeAssistantPlugin.main.EntryRow")
+    @patch("HomeAssistantPlugin.main.SwitchRow")
+    @patch("HomeAssistantPlugin.main.PreferencesGroup")
+    @patch("HomeAssistantPlugin.main.PasswordEntryRow")
+    @patch("HomeAssistantPlugin.main.ConnectionSettings")
+    @patch("HomeAssistantPlugin.main.HomeAssistantBackend")
     def test_reload_settings_success(self, backend_mock, settings_mock, password_entry_init_mock, group_init_mock,
-                             switch_init_mock, entry_init_mock, _, __, ___, ____, _____):
+                             switch_init_mock, entry_init_mock, _, __, ___, ____):
         set_text_mock = Mock()
         set_active_mock = Mock()
         set_editable_mock = Mock()

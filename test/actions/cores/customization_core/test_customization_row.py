@@ -9,11 +9,11 @@ sys.path.insert(0, absolute_plugin_path)
 class TestCustomizationRow(unittest.TestCase):
     def setUp(self):
         # Patch GTK/Adw widgets but NOT ActionRow
-        self.button_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_row.Button")
-        self.align_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_row.Align")
-        self.box_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_row.Box")
-        self.orientation_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_row.Orientation")
-        self.const_patch = patch("de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_row.customization_const")
+        self.button_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_row.Button")
+        self.align_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_row.Align")
+        self.box_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_row.Box")
+        self.orientation_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_row.Orientation")
+        self.const_patch = patch("HomeAssistantPlugin.actions.cores.customization_core.customization_row.customization_const")
 
         self.MockButton = self.button_patch.start()
         self.MockAlign = self.align_patch.start()
@@ -31,7 +31,7 @@ class TestCustomizationRow(unittest.TestCase):
         self.mock_gtk_window_init = self.gtk_window_init_patch.start()
 
         # Patch add_suffix method to avoid GTK widget type errors
-        from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_row
+        from HomeAssistantPlugin.actions.cores.customization_core import customization_row
         self.customization_row = customization_row
         self.add_suffix_patch = patch.object(
             self.customization_row.CustomizationRow, "add_suffix"

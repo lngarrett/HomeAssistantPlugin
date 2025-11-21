@@ -6,8 +6,8 @@ from unittest.mock import patch, Mock
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend import HomeAssistantBackend
-from de_gensyn_HomeAssistantPlugin.backend import backend_const
+from HomeAssistantPlugin.backend.home_assistant_backend import HomeAssistantBackend
+from HomeAssistantPlugin.backend import backend_const
 
 
 class TestBackendConnect(unittest.TestCase):
@@ -53,8 +53,8 @@ class TestBackendConnect(unittest.TestCase):
         connection_status_callback_mock.assert_not_called()
 
     @patch.object(HomeAssistantBackend, 'disconnect')
-    @patch("de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend.HomeAssistantWebsocket")
-    @patch("de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend.Thread")
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.HomeAssistantWebsocket")
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.Thread")
     def test_connect_success(self, thread_mock, websocket_mock, disconnect_mock):
         host = "localhost"
         port = "8123"

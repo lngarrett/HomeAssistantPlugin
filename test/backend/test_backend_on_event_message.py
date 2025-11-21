@@ -6,8 +6,8 @@ from unittest.mock import patch, Mock
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend import HomeAssistantBackend
-from de_gensyn_HomeAssistantPlugin.backend import backend_const
+from HomeAssistantPlugin.backend.home_assistant_backend import HomeAssistantBackend
+from HomeAssistantPlugin.backend import backend_const
 
 
 class TestBackendOnEventMessage(unittest.TestCase):
@@ -63,7 +63,7 @@ class TestBackendOnEventMessage(unittest.TestCase):
 
     @patch.object(HomeAssistantBackend, 'connect')
     @patch.object(HomeAssistantBackend, 'is_connected')
-    @patch("de_gensyn_HomeAssistantPlugin.backend.home_assistant_backend.log.warning")
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.log.warning")
     def test_on_event_message_not_subscribed(self, log_mock, is_connected_mock, _):
         wrong_mock = Mock()
 

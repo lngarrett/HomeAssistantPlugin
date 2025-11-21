@@ -10,12 +10,12 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action import PerformAction
+from HomeAssistantPlugin.actions.perform_action.perform_action import PerformAction
 
 
 class TestPerformActionPerformAction(unittest.TestCase):
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
     def test_perform_action_no_domain(self, _,):
         settings_mock = Mock()
         settings_mock.get_domain = Mock(return_value=None)
@@ -38,7 +38,7 @@ class TestPerformActionPerformAction(unittest.TestCase):
         settings_mock.get_entity.assert_not_called()
         backend_mock.perform_action.assert_not_called()
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
     def test_perform_action_no_action(self, _):
         settings_mock = Mock()
         settings_mock.get_domain = Mock(return_value='test_domain')
@@ -61,7 +61,7 @@ class TestPerformActionPerformAction(unittest.TestCase):
         settings_mock.get_entity.assert_not_called()
         backend_mock.perform_action.assert_not_called()
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
     def test_perform_action_success(self, _):
         parameters = {
             'param_list': json.dumps(['item1', 'item2']),

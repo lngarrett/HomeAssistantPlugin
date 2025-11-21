@@ -7,15 +7,15 @@ from unittest.mock import Mock, patch
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_const
-from de_gensyn_HomeAssistantPlugin.actions.show_text import text_settings, text_const
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_settings import ShowTextSettings
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions.show_text import text_settings, text_const
+from HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
+from HomeAssistantPlugin.actions.show_text.text_settings import ShowTextSettings
 
 
 class TestShowTextSettings(unittest.TestCase):
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_settings.CustomizationSettings.__init__', autospec=True)
+    @patch('HomeAssistantPlugin.actions.show_text.text_settings.CustomizationSettings.__init__', autospec=True)
     def test_init_values_present(self, super_init_mock):
         action = Mock()
         action.get_settings.return_value = {
@@ -54,7 +54,7 @@ class TestShowTextSettings(unittest.TestCase):
         self.assertTrue(instance.get_show_unit())
         self.assertFalse(instance.get_unit_line_break())
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_settings.CustomizationSettings.__init__', autospec=True)
+    @patch('HomeAssistantPlugin.actions.show_text.text_settings.CustomizationSettings.__init__', autospec=True)
     def test_init_with_defaults(self, super_init_mock):
         action = Mock()
         action.get_settings.return_value = {}

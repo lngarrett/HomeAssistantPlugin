@@ -1,6 +1,6 @@
 """Module to manage HomeAssistantPlugin action settings."""
 
-from de_gensyn_HomeAssistantPlugin.actions import const
+from HomeAssistantPlugin.actions import const
 
 DEFAULT_SETTINGS = {
     const.SETTING_DOMAIN: const.EMPTY_STRING,

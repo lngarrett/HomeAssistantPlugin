@@ -5,11 +5,11 @@ The module for the Home Assistant customization icon window.
 from functools import partial
 from typing import Callable, List
 
-from de_gensyn_HomeAssistantPlugin.actions import const as base_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_helper
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window import CustomizationWindow
-from de_gensyn_HomeAssistantPlugin.actions.show_icon import icon_const, icon_helper
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
+from HomeAssistantPlugin.actions import const as base_const
+from HomeAssistantPlugin.actions.cores.customization_core import customization_helper
+from HomeAssistantPlugin.actions.cores.customization_core.customization_window import CustomizationWindow
+from HomeAssistantPlugin.actions.show_icon import icon_const, icon_helper
+from HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
 
 
 class IconWindow(CustomizationWindow):

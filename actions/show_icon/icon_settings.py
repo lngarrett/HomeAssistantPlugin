@@ -2,10 +2,10 @@
 
 from typing import Tuple
 
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_settings import CustomizationSettings
-from de_gensyn_HomeAssistantPlugin.actions.show_icon import icon_const
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions.cores.customization_core.customization_settings import CustomizationSettings
+from HomeAssistantPlugin.actions.show_icon import icon_const
+from HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
 
 DEFAULT_SETTINGS = {
     icon_const.SETTING_ICON: icon_const.EMPTY_STRING,

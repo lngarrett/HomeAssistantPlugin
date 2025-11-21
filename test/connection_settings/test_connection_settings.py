@@ -9,7 +9,7 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.connection_settings.connection_settings import ConnectionSettings
+from HomeAssistantPlugin.connection_settings.connection_settings import ConnectionSettings
 
 
 class TestConnectionSettings(unittest.TestCase):

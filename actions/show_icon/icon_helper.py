@@ -7,10 +7,10 @@ import logging
 import os
 from typing import Dict, List
 
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_helper
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
-from de_gensyn_HomeAssistantPlugin.actions.show_icon import icon_const
-from de_gensyn_HomeAssistantPlugin.actions.show_icon.icon_settings import ShowIconSettings
+from HomeAssistantPlugin.actions.cores.customization_core import customization_helper
+from HomeAssistantPlugin.actions.show_icon.icon_customization import IconCustomization
+from HomeAssistantPlugin.actions.show_icon import icon_const
+from HomeAssistantPlugin.actions.show_icon.icon_settings import ShowIconSettings
 
 MDI_FILENAME = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../..",
                             icon_const.MDI_SVG_JSON)

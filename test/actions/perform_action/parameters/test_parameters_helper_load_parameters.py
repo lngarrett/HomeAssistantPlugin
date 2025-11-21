@@ -9,8 +9,8 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.perform_action import perform_const
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters import parameters_helper
+from HomeAssistantPlugin.actions.perform_action import perform_const
+from HomeAssistantPlugin.actions.perform_action.parameters import parameters_helper
 
 
 class TestParametersHelperLoadParameters(unittest.TestCase):
@@ -144,7 +144,7 @@ class TestParametersHelperLoadParameters(unittest.TestCase):
         action.plugin_base.backend.get_actions.assert_called_once_with(domain)
         action.parameters_expander.add_row.assert_not_called()
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterComboRow')
+    @patch('HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterComboRow')
     def test_load_parameters_combo_row_selector(self, parameter_combo_row_mock):
         domain = "light"
         entity_id = "light.living_room"
@@ -212,7 +212,7 @@ class TestParametersHelperLoadParameters(unittest.TestCase):
         assert "color_temp" in fields
         assert perform_const.ADVANCED_FIELDS not in fields
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterComboRow')
+    @patch('HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterComboRow')
     def test_load_parameters_combo_row_list(self, parameter_combo_row_mock):
         domain = "light"
         entity_id = "light.living_room"
@@ -273,7 +273,7 @@ class TestParametersHelperLoadParameters(unittest.TestCase):
         action.parameters_expander.add_row.assert_called_once_with(parameter_combo_row_mock.widget)
         parameter_combo_row_mock.assert_called_once_with(action, f"{perform_const.SETTING_SERVICE}.{perform_const.ACTION_PARAMETERS}.brightness", "brightness", perform_const.EMPTY_STRING, ["25%", "50%", "75%", "100%"], False)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterSwitchRow')
+    @patch('HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterSwitchRow')
     def test_load_parameters_switch_row_with_value(self, parameter_switch_row_mock):
         domain = "light"
         entity_id = "light.living_room"
@@ -329,7 +329,7 @@ class TestParametersHelperLoadParameters(unittest.TestCase):
         action.parameters_expander.add_row.assert_called_once_with(parameter_switch_row_mock.widget)
         parameter_switch_row_mock.assert_called_once_with(action, f"{perform_const.SETTING_SERVICE}.{perform_const.ACTION_PARAMETERS}.brightness", "Brightness", True, True)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterSwitchRow')
+    @patch('HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterSwitchRow')
     def test_load_parameters_switch_row_without_value(self, parameter_switch_row_mock):
         domain = "light"
         entity_id = "light.living_room"
@@ -386,7 +386,7 @@ class TestParametersHelperLoadParameters(unittest.TestCase):
         action.parameters_expander.add_row.assert_called_once_with(parameter_switch_row_mock.widget)
         parameter_switch_row_mock.assert_called_once_with(action, f"{perform_const.SETTING_SERVICE}.{perform_const.ACTION_PARAMETERS}.brightness", "Brightness", True, True)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterScaleRow')
+    @patch('HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterScaleRow')
     def test_load_parameters_scale_row_with_value(self, parameter_scale_row_mock):
         domain = "light"
         entity_id = "light.living_room"
@@ -446,7 +446,7 @@ class TestParametersHelperLoadParameters(unittest.TestCase):
         action.parameters_expander.add_row.assert_called_once_with(parameter_scale_row_mock.widget)
         parameter_scale_row_mock.assert_called_once_with(action, f"{perform_const.SETTING_SERVICE}.{perform_const.ACTION_PARAMETERS}.brightness", "Brightness", 48.5, 1, 99, 0.5, True)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterScaleRow')
+    @patch('HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterScaleRow')
     def test_load_parameters_scale_row_without_value(self, parameter_scale_row_mock):
         domain = "light"
         entity_id = "light.living_room"
@@ -507,7 +507,7 @@ class TestParametersHelperLoadParameters(unittest.TestCase):
         action.parameters_expander.add_row.assert_called_once_with(parameter_scale_row_mock.widget)
         parameter_scale_row_mock.assert_called_once_with(action, f"{perform_const.SETTING_SERVICE}.{perform_const.ACTION_PARAMETERS}.brightness", "Brightness", 7, 1, 99, 0.5, True)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterEntryRow')
+    @patch('HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.ParameterEntryRow')
     def test_load_parameters_entry_row(self, parameter_entry_row_mock):
         domain = "light"
         entity_id = "light.living_room"

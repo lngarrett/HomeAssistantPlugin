@@ -3,7 +3,7 @@
 from typing import List
 
 from GtkHelper.GenerativeUI.ComboRow import ComboRow
-from de_gensyn_HomeAssistantPlugin.actions import const
+from HomeAssistantPlugin.actions import const
 from src.backend.PluginManager.ActionCore import ActionCore
 
 

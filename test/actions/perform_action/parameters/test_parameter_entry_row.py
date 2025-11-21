@@ -9,24 +9,24 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row import ParameterEntryRow
+from HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row import ParameterEntryRow
 
 
 class TestParameterEntryRow(unittest.TestCase):
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow.__init__')
     def test_init(self, parameter_row_init_mock, entry_row_init_mock):
         create_instance(entry_row_init_mock, parameter_row_init_mock, False)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.get_text')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.get_text')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow.__init__')
     def test_get_parameter_value(self, parameter_row_init_mock, entry_row_init_mock, get_text_mock):
         instance = create_instance(entry_row_init_mock, parameter_row_init_mock, False)
         get_text_mock.return_value = "current_text"
@@ -35,11 +35,11 @@ class TestParameterEntryRow(unittest.TestCase):
         self.assertEqual(result, "current_text")
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.set_value')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.set_value')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow.__init__')
     def test_set_value_check_not_active(self, parameter_row_init_mock, entry_row_init_mock, entry_row_set_value_mock):
         instance = create_instance(entry_row_init_mock, parameter_row_init_mock, False)
         instance.check.get_active = Mock(return_value=False)
@@ -49,11 +49,11 @@ class TestParameterEntryRow(unittest.TestCase):
         entry_row_set_value_mock.assert_not_called()
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.set_value')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.set_value')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow.__init__')
     def test_set_value_check_active(self, parameter_row_init_mock, entry_row_init_mock, entry_row_set_value_mock):
         instance = create_instance(entry_row_init_mock, parameter_row_init_mock, False)
         instance.check.get_active = Mock(return_value=True)
@@ -63,13 +63,13 @@ class TestParameterEntryRow(unittest.TestCase):
         entry_row_set_value_mock.assert_called_once_with(instance, "new_value")
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow._value_changed')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow._value_changed')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow._on_change')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow._on_change')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow.__init__')
     def test_value_changed_required(self, parameter_row_init_mock, parameter_row_on_change_mock, entry_row_init_mock,
                                     entry_row_value_changed_mock):
         instance = create_instance(entry_row_init_mock, parameter_row_init_mock, True)
@@ -81,15 +81,15 @@ class TestParameterEntryRow(unittest.TestCase):
         parameter_row_on_change_mock.assert_called_once_with(instance)
 
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.get_text')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.get_text')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow._value_changed')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow._value_changed')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.EntryRow.__init__')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow._on_change')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow._on_change')
     @patch(
-        'de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow.__init__')
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameter_entry_row.ParameterRow.__init__')
     def test_value_changed_not_required(self, parameter_row_init_mock, parameter_row_on_change_mock,
                                         entry_row_init_mock, entry_row_value_changed_mock, get_text_mock):
         get_text_mock.return_value = "False"

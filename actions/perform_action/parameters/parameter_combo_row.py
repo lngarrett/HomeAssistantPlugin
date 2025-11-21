@@ -3,7 +3,7 @@ from typing import List
 
 from GtkHelper.ComboRow import BaseComboRowItem
 from GtkHelper.GenerativeUI.ComboRow import ComboRow
-from de_gensyn_HomeAssistantPlugin.actions.perform_action.parameters.parameter_row import ParameterRow
+from HomeAssistantPlugin.actions.perform_action.parameters.parameter_row import ParameterRow
 
 
 class ParameterComboRow(ParameterRow, ComboRow):

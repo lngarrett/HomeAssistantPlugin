@@ -4,9 +4,9 @@ Modul to manage icon customizations.
 
 from typing import Tuple, Dict, Any
 
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization import Customization
-from de_gensyn_HomeAssistantPlugin.actions.show_icon import icon_const
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions.cores.customization_core.customization import Customization
+from HomeAssistantPlugin.actions.show_icon import icon_const
 
 
 class IconCustomization(Customization):

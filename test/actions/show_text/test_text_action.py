@@ -9,18 +9,18 @@ sys.path.insert(0, absolute_mock_path)
 absolute_plugin_path = str(Path(__file__).parent.parent.parent.parent.parent.absolute())
 sys.path.insert(0, absolute_plugin_path)
 
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_const
-from de_gensyn_HomeAssistantPlugin.actions.show_text import text_const
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_action import ShowText
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_row import TextRow
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_settings import ShowTextSettings
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_window import TextWindow
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions.show_text import text_const
+from HomeAssistantPlugin.actions.show_text.text_action import ShowText
+from HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
+from HomeAssistantPlugin.actions.show_text.text_row import TextRow
+from HomeAssistantPlugin.actions.show_text.text_settings import ShowTextSettings
+from HomeAssistantPlugin.actions.show_text.text_window import TextWindow
 
 
 class TestShowText(unittest.TestCase):
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore.__init__')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore.__init__')
     def test_init(self, super_init_mock):
         arg = "abc"
         kwargs = {"key": "value"}
@@ -83,12 +83,12 @@ class TestShowText(unittest.TestCase):
 
         self.assertEqual(result, expected)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore._create_ui_elements')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.ComboRow')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.ExpanderRow')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.ScaleRow')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.ColorButtonRow')
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.SwitchRow')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore._create_ui_elements')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.ComboRow')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.ExpanderRow')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.ScaleRow')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.ColorButtonRow')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.SwitchRow')
     def test_create_ui_elements(self, switch_row_mock, color_button_row_mock, scale_row_mock, expander_row_mock,
                                 combo_row_mock, super_create_ui_elements_mock):
         instance = ShowText.__new__(ShowText)
@@ -150,7 +150,7 @@ class TestShowText(unittest.TestCase):
                  can_reset=False, complex_var_name=True)
         ])
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore._set_enabled_disabled')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore._set_enabled_disabled')
     def test_set_enabled_disabled_no_domain(self, super_set_enabled_disabled_mock):
         lm = {
             text_const.LABEL_NO_ENTITY: "No entity selected"
@@ -197,7 +197,7 @@ class TestShowText(unittest.TestCase):
         instance.unit_line_break.widget.set_sensitive.assert_called_once_with(False)
         instance.unit_line_break.widget.set_subtitle.assert_called_once_with(lm[text_const.LABEL_NO_ENTITY])
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore._set_enabled_disabled')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore._set_enabled_disabled')
     def test_set_enabled_disabled_no_entity(self, super_set_enabled_disabled_mock):
         lm = {
             text_const.LABEL_NO_ENTITY: "No entity selected"
@@ -244,7 +244,7 @@ class TestShowText(unittest.TestCase):
         instance.unit_line_break.widget.set_sensitive.assert_called_once_with(False)
         instance.unit_line_break.widget.set_subtitle.assert_called_once_with(lm[text_const.LABEL_NO_ENTITY])
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore._set_enabled_disabled')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore._set_enabled_disabled')
     def test_set_enabled_disabled_without_unit(self, super_set_enabled_disabled_mock):
         lm = {
             text_const.LABEL_NO_ENTITY: "No entity selected"
@@ -301,7 +301,7 @@ class TestShowText(unittest.TestCase):
         instance.unit_line_break.widget.set_sensitive.assert_has_calls([call(False), call(False)])
         instance.unit_line_break.widget.set_subtitle.assert_called_once_with(text_const.EMPTY_STRING)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore._set_enabled_disabled')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore._set_enabled_disabled')
     def test_set_enabled_disabled_with_unit(self, super_set_enabled_disabled_mock):
         lm = {
             text_const.LABEL_NO_ENTITY: "No entity selected"
@@ -359,7 +359,7 @@ class TestShowText(unittest.TestCase):
         instance.unit_line_break.widget.set_sensitive.assert_called_once_with(True)
         instance.unit_line_break.widget.set_subtitle.assert_called_once_with(text_const.EMPTY_STRING)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore._on_change_entity')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.CustomizationCore._on_change_entity')
     def test_on_change_entity(self, super_on_change_entity_mock):
         instance = ShowText.__new__(ShowText)
         instance.initialized = True
@@ -413,7 +413,7 @@ class TestShowText(unittest.TestCase):
 
         self.assertEqual(attributes, result)
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.text_helper')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.text_helper')
     def test_refresh_not_initialized(self, text_helper_mock):
         instance = ShowText.__new__(ShowText)
         instance.initialized = False
@@ -442,7 +442,7 @@ class TestShowText(unittest.TestCase):
         instance._load_customizations.assert_not_called()
         instance._set_enabled_disabled.assert_not_called()
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.text_helper')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.text_helper')
     def test_refresh_no_entity(self, text_helper_mock):
         instance = ShowText.__new__(ShowText)
         instance.initialized = True
@@ -466,7 +466,7 @@ class TestShowText(unittest.TestCase):
         instance._load_customizations.assert_not_called()
         instance._set_enabled_disabled.assert_not_called()
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.text_helper')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.text_helper')
     def test_refresh_no_state(self, text_helper_mock):
         instance = ShowText.__new__(ShowText)
         instance.initialized = True
@@ -492,7 +492,7 @@ class TestShowText(unittest.TestCase):
         instance._load_customizations.assert_not_called()
         instance._set_enabled_disabled.assert_not_called()
 
-    @patch('de_gensyn_HomeAssistantPlugin.actions.show_text.text_action.text_helper')
+    @patch('HomeAssistantPlugin.actions.show_text.text_action.text_helper')
     def test_refresh_success(self, text_helper_mock):
         instance = ShowText.__new__(ShowText)
         instance.initialized = True

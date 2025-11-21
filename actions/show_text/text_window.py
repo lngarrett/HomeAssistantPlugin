@@ -7,11 +7,11 @@ from typing import Callable, List
 
 from gi.repository.Gtk import StringObject
 
-from de_gensyn_HomeAssistantPlugin.actions import const as base_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_helper
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization_window import CustomizationWindow
-from de_gensyn_HomeAssistantPlugin.actions.show_text import text_const
-from de_gensyn_HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
+from HomeAssistantPlugin.actions import const as base_const
+from HomeAssistantPlugin.actions.cores.customization_core import customization_helper
+from HomeAssistantPlugin.actions.cores.customization_core.customization_window import CustomizationWindow
+from HomeAssistantPlugin.actions.show_text import text_const
+from HomeAssistantPlugin.actions.show_text.text_customization import TextCustomization
 
 
 class TextWindow(CustomizationWindow):

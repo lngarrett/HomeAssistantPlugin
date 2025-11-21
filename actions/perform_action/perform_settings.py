@@ -2,8 +2,8 @@
 
 from typing import Dict
 
-from de_gensyn_HomeAssistantPlugin.actions.perform_action import perform_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.base_core.base_settings import BaseSettings
+from HomeAssistantPlugin.actions.perform_action import perform_const
+from HomeAssistantPlugin.actions.cores.base_core.base_settings import BaseSettings
 
 DEFAULT_SETTINGS = {
     perform_const.SETTING_ACTION: perform_const.EMPTY_STRING,

@@ -13,9 +13,9 @@ gi.require_version("Gtk", "4.0")
 from gi.repository.Gtk import Align, Box, Button, CssProvider, Entry, \
     Grid, Label, Window, CheckButton, Scale, Orientation, Switch, ColorDialog, ColorDialogButton, DropDown, StringObject, PropertyExpression
 
-from de_gensyn_HomeAssistantPlugin.actions import const as base_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core import customization_const
-from de_gensyn_HomeAssistantPlugin.actions.cores.customization_core.customization import Customization
+from HomeAssistantPlugin.actions import const as base_const
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions.cores.customization_core.customization import Customization
 
 CSS = b"""
 dropdown.error {

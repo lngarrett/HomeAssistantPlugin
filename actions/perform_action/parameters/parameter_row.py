@@ -5,7 +5,7 @@ import gi
 gi.require_version('Gtk', '4.0')
 from gi.repository.Gtk import CheckButton
 
-from de_gensyn_HomeAssistantPlugin import const as base_const
+from HomeAssistantPlugin import const as base_const
 
 
 class ParameterRow:
