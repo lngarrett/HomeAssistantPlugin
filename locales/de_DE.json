@@ -7,15 +7,15 @@
 
     "actions.home_assistant.settings.entity.label": "Entität",
     "actions.home_assistant.settings.service.label": "Service",
+    "actions.home_assistant.settings.action.label": "Action",
     "actions.home_assistant.settings.icon.label": "Bild",
     "actions.home_assistant.settings.text.label": "Text",
-    "actions.home_assistant.settings.connection.label": "Verbindungsstatus",
 
     "actions.home_assistant.entity.domain.label": "Domäne:",
     "actions.home_assistant.entity.entity.label": "Entität:",
 
-    "actions.home_assistant.service.call_service.label": "Service aufrufen:",
-    "actions.home_assistant.service.service.label": "Service:",
+    "actions.home_assistant.service.call_service.label": "Aktion ausführen:",
+    "actions.home_assistant.service.service.label": "Aktion:",
     "actions.home_assistant.service.no_domain.label": "Keine Domäne ausgewählt",
     "actions.home_assistant.service.no_entity.label": "Keine Entität ausgewählt",
     "actions.home_assistant.service.no_services.label": "Die ausgewählte Domäne stellt keine Services bereit",
@@ -48,6 +48,8 @@
 
     "actions.home_assistant.connection.connection_status.label": "Verbindungsstatus",
 
+    "actions.home_assistant.customization.label": "Anpassen:",
+    "actions.home_assistant.customization.no_entity.label": "Keine Entität ausgewählt",
     "actions.home_assistant.customization.icon_title.label": "Icon anpassen",
     "actions.home_assistant.customization.text_title.label": "Text anpassen",
     "actions.home_assistant.customization.attribute.label": "Attribut",

@@ -1,7 +1,7 @@
 {
-    "version": "1.0.3",
+    "version": "1.0.0",
     "thumbnail": "assets/homeassistant.png",
-    "id": "de_gensyn_HomeAssistantPlugin",
+    "id": "HomeAssistantPlugin",
     "name": "Home Assistant",
     "descriptions": {
         "en_US": "Control your Home Assistant instance from your StreamDeck.",

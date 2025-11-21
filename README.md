@@ -1,37 +1,45 @@
 # HomeAssistantPlugin for [StreamController](https://github.com/StreamController/StreamController)
+
 Control your Home Assistant instance from your StreamDeck
 
 __This is no official plugin - I have no affiliation with Home Assistant, StreamDeck or StreamController.__
 
 ## Prerequisites
-* `websocket_api` must be present in your `configuration.yaml`. Remember to restart Home Assistant after updating your configuration.
-* You need a _long-lived access token_ to connect to Home Assistant. To create one, go to your user profile and click on the _Security_ tab. All the way at the bottom of the page is a button to create a new token. You can only see/copy the token immediately after creating it. Once you dismiss the dialog, you won't be able to retrieve the token.  
-  __Be very careful with your Home Assistant information and your token. If your Home Assistant instance is accessible from the internet, anyone with this information can access and control your Home Assistant instance.__
+
+* `websocket_api` must be present in your `configuration.yaml`. Remember to restart Home Assistant after updating your
+  configuration.
+* You need a _long-lived access token_ to connect to Home Assistant. To create one, go to your user profile and click on
+  the _Security_ tab. All the way at the bottom of the page is a button to create a new token. You can only see/copy the
+  token immediately after creating it. Once you dismiss the dialog, you won't be able to retrieve the token.  
+  __Be very careful with your Home Assistant information and your token. If your Home Assistant instance is accessible
+  from the internet, anyone with this information can access and control your Home Assistant instance.__
 
 ## Features
-* Connect to your Home Assistant instance
-* Select a domain and entity
-* Option to call a service
-  * Parameters for the service can be provided for the service call
-  * The service is always called on `key_down`, i.e. immediately when the button is pressed
-    * To change this behavior, the built-in `Event Assigner` can be used to
-      * map other events to `key_down`, if you want to call the service on a different event (multiple events are possible)
-      * map `key_down` to `None`, if you don't want to call the service on `key_down`
-* Option to show the entity icon or a user-defined icon
-  * Color, scale and opacity of the icon can be set as well
-  * All icon settings can be customized based on state or attribute values
-    * Customizations are reevaluated on every entity update
-* Option to show the entity state or an attribute value as text
-  * If the entity's state changes, the text is updated on the StreamDeck
-  * Position, text size, text color, outline size and outline color of the text can be set as well
-  * Option to show unit of measurement (with or without line break)
-  * All text settings can be customized based on state or attribute values
-    * Customizations are reevaluated on every entity update
-* Automatic connection retries when the connection is lost
+
+* Perform an action
+    * Parameters for the action can be provided
+    * The action is always called on `key_down`, i.e. immediately when the button is pressed
+        * To change this behavior, the built-in `Event Assigner` can be used to
+            * map other events to `key_down`, if you want to call the service on a different event (multiple events are
+              possible)
+            * map `key_down` to `None`, if you don't want to call the service on `key_down`
+* Show an icon
+    * This can be the entity icon or a custom icon
+    * Color, scale and opacity of the icon can be customized
+    * All icon settings can also be customized based on state or attribute values
+        * Customizations are reevaluated when the entity is updated
+* Show text
+    * This can be the entity state, an attribute value or custom text
+    * If the entity's state changes, the text is updated on the StreamDeck
+    * Position, text size, text color, outline size and outline color of the text can be customized
+    * Optionally show the unit of measurement (with or without line break)
+    * All text settings can also be customized based on state or attribute values
+        * Customizations are reevaluated when the entity is updated
 
 ## Documentation
 
 ### Plugin settings
+
 To open the Home Assistant plugin settings, open your _StreamController settings_ and select the tab
 _Plugins_. Look for the entry for _Home Assistant_ and click _Open Settings_.
 
@@ -40,54 +48,44 @@ _Plugins_. Look for the entry for _Home Assistant_ and click _Open Settings_.
 Once all necessary information is entered, the plugin automatically tries to connect to Home
 Assistant. If you are using a self-signed certificate, you should disable _Verify certificate_
 or the connection will fail.  
-If the connection can't be established or is lost, the plugin automatically tries to reconnect:
-  * every 10 seconds for the first two minutes
-  * then every minute for the first hour
-  * every 5 minutes after that
+If the connection can't be established or is lost, the plugin automatically tries to reconnect to the server every 10
+seconds.
 
-## Action settings
-Located within each action are settings that allow you to call Home Assistant services or show
-icons or text of Home Assistant entities (or possibly all three). 
+### Perform action
 
-### Action entity
-First you need to pick an entity for your action.
+This action allows you to perform an action in Home Assistant.
 
-![Action settings entity](assets/action_entity.png)
+![Action settings service](assets/perform_action.png)
 
-### Action service
-If you want to call a service when pressing the key on your Stream Deck, activate the _Call service_
-switch.
-
-![Action settings service](assets/action_service.png)
-
-You can then pick the service and optionally set parameters for the service call. The list of
-parameters contains all possible parameters for the service; this does not guarantee, that the
+You can pick the action and optionally an entity, if the action requires one. Parameters for the action are also
+optional but the list of parameters contains all possible parameters for the action; this does not guarantee, that the
 entity supports the parameter.  
-Only settings where the checkbox on the left is checked are honored.
+Only parameters that have their checkbox checked are included when performing the action.
 
-### Action icon
-If you want to show an icon on the key, activate the _Show icon_ switch.
+### Show icon
 
-![Action settings icon](assets/action_icon.png)
+This action allows you to show an icon based on Home Assistant data.
 
-By default, this shows the icon defined in Home Assistant for the entity, or nothing, if no icon is
-defined. In the _Icon_ field you can define an icon which overrides the setting from Home Assistant.
-Valid are all icons from the [Material Design Icon](https://pictogrammers.com/library/mdi/)
-collection.  
+![Action settings icon](assets/show_icon.png)
+
+After picking in entity, by default this shows the icon defined in Home Assistant for the entity; or nothing, if no
+icon is defined. In the _Icon_ field you can define an icon which overrides the setting from Home Assistant.
+Valid are all icons from the [Material Design Icon](https://pictogrammers.com/library/mdi/) collection.  
 You can also adapt color, scale and opacity of the icon there.
 
-#### Action icon customization
+#### Show icon customization
+
 To create a new icon customization, click the button (
 ![Action settings icon add customization](assets/action_customize_add.png))  in the _Customize_
 row. A new window opens where you can enter a condition and how the icon should change if the
 condition is met.
 
-![Action settings icon customization](assets/action_icon_customize.png)
+![Action settings icon customization](assets/show_icon_customize.png)
 
-Only settings where the checkbox on the left is checked are honored.  
-When you have created customizations, they are shown in the _Icon_ section as well.
+Only settings whose checkbox is checked are honored.  
+When you have created customizations, they are shown under _Customize_.
 
-![Action settings icon customizations](assets/action_icon_customizations.png)
+![Action settings icon customizations](assets/show_icon_customizations.png)
 
 Customizations are cascading and evaluated in order. This means, multiple customizations might have
 conditions that are met, but the latest matching customization sets the eventual value for an
@@ -96,11 +94,13 @@ _lamp_ as this is the latest matching customization.
 For convenience, the current value that the condition is evaluated against, is also shown, and with
 the buttons, you can edit, delete and rearrange your customizations.
 
-### Action text
-If you want to show text on the key, activate the _Show text_ switch.
+### Show text
 
-![Action settings text](assets/action_text.png)
+This action allows you to show text based on Home Assistant data.
 
+![Action settings text](assets/show_text.png)
+
+After picking an entity, you can configure how the text is shown.  
 With _Position_ you can change where on the key the text is shown. _Attribute_ allows you to change
 what value of the entity is displayed; either the state, or the value of an attribute.  
 When _Round value_ is active, the plugin tries to convert the value to a float number and round it
@@ -112,18 +112,19 @@ Assistant, the option _Show unit of measurement_ becomes available. When the opt
 additionally the option _Line break between value and unit_ becomes available as well. They do
 exactly what the labels say.
 
-#### Action text customization
+#### Show text customization
+
 To create a new text customization, click the button (
 ![Action settings text add customization](assets/action_customize_add.png))  in the _Customize_
 row. A new window opens where you can enter a condition and how the text should change if the
 condition is met.
 
-![Action settings text customization](assets/action_text_customize.png)
+![Action settings text customization](assets/show_text_customize.png)
 
-Only settings where the checkbox on the left is checked are honored.  
-When you have created customizations, they are shown in the _Text_ section as well.
+Only settings whose checkbox is checked are honored.  
+When you have created customizations, they are shown under _Customize_.
 
-![Action settings text customizations](assets/action_text_customizations.png)
+![Action settings text customizations](assets/show_text_customizations.png)
 
 Just as with icon customization, text customizations are cascading and evaluated in order.
 This means, multiple customizations might have conditions that are met, but the latest matching
@@ -140,41 +141,29 @@ the buttons, you can edit, delete and rearrange your customizations.
 ## Examples
 
 ### Weather button
-![Weather button](assets/example_1.png)  
-A button showing the current weather with no service attached.
-#### Actions:
-* Just one to show the weather text.
 
-<br />
+![Weather button](assets/example_1.png)  
+Action _Show text_ used with a weather entity.
 
 ### Toggle button
-![boolean toggle button](assets/example_2.gif)  
-A button showing the icon of an _input_boolean_. Pressing the button calls the service _toggle_ on the _input_boolean_ and the color changes according to the state.
-#### Actions:
-* Just one to show the icon of the entity and call the service.
 
-<br />
+![boolean toggle button](assets/example_2.gif)  
+Action _Show icon_ and action _Perform action_ used with the same _input_boolean_ entity. _Show icon_ is customized to change the icon color to yellow when the _input_boolean_ is _on_. _Perform action_ toggles the _input_boolean_'s state.
 
 ### Media Player button
-![media player button](assets/example_3.gif)  
-A button to control a media player and show media info.
-#### Actions:
-* The first action shows the media player icon, which is set according to the current media player state and the service selected for the button. In this case the service _media_play_pause_ is selected so if the state is _paused_ the icon is the play icon, otherwise the pause icon is shown.  
-  This action also shows the current media title at the bottom.  
-* The second action shows the media artist of the same entity at the top.
 
-<br />
+![media player button](assets/example_3.gif)  
+Action _Show icon_, action _Perform action_ and two actions _Show text_ used with the same media player entity. _Show icon_ shows the custom icon _play_ except when the media player is _playing_, then it shows the custom icon _pause_. _Perform action_ performs the action _media_play_pause_ on the media player entity. The two _Show text_ actions show the media title and artist respectively.
 
 ### Air quality button
+
 ![air quality button](assets/example_4.gif)  
-A button to show and control air quality.
-#### Actions:
-* The first action shows the text and unit of measurement of a CO2 sensor with line break between value and unit.
-* The second action shows the icon of a ventilator in the same room at 50% opacity.  
-  Pressing the button also toggles the ventilator on/off.
+Action _Show text_, action _Perform action_ and action _Show icon_ used with a CO2 sensor and a ventilator entity respectively. _Show text_ shows the CO2 sensor value with unit of measurement and line break between value and unit. _Show icon_ shows the ventilator icon at 50% opacity. _Perform action_ toggles the ventilator on/off.
 
 ## Planned features
+
 * None at the moment
 
 ## Problems?
-* Please open a [GitHub issue](https://github.com/gensyn/de_gensyn_HomeAssistantPlugin/issues).
+
+* Please open a [GitHub issue](https://github.com/gensyn/HomeAssistantPlugin/issues).

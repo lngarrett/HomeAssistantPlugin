@@ -1,6 +1,6 @@
 from typing import Dict, Any
 
-from const import SETTING_HOST, SETTING_PORT, SETTING_SSL, SETTING_TOKEN
+from HomeAssistantPlugin.const import SETTING_HOST, SETTING_PORT, SETTING_SSL, SETTING_TOKEN
 
 
 class PluginBase:
