@@ -135,7 +135,7 @@ class BaseCore(ActionCore):
         """Load domains from Home Assistant."""
         domain = self.settings.get_domain()
         domains = self._get_domains()
-        if domain not in domains:
+        if domain is not None and domain not in domains:
             domains.append(domain)
         domains.sort()
         self.domain_combo.populate(domains, domain, trigger_callback=False)
