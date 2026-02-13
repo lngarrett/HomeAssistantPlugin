@@ -46,6 +46,10 @@ def load_parameters(action):
             else:
                 options = ha_entity.get(perform_const.ATTRIBUTES, {})[f"{field_name}{perform_const.LIST}"]
 
+            if not options:
+                # If there are no options, skip this parameter as it cannot be selected.
+                continue
+
             if not isinstance(options[0], str):
                 options = [opt[perform_const.VALUE] for opt in options]
 
