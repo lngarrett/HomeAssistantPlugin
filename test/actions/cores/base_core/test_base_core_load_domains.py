@@ -67,3 +67,27 @@ class TestBaseCoreLoadDomains(unittest.TestCase):
         get_domains_mock.assert_called_once()
         domain_combo_mock.populate.assert_called_once_with(domains_sorted, domain, trigger_callback=False)
 
+
+    @patch.object(BaseCore, "_create_ui_elements")
+    @patch.object(BaseCore, "_create_event_assigner")
+    @patch.object(BaseCore, "_get_domains")
+    def test_load_domains_with_none_in_domains(self, get_domains_mock, _, __):
+        domains = ["switch", None, "sensor"]
+        domain = "light"
+        domains_sorted = sorted(["switch", "sensor", domain])
+
+        get_domains_mock.return_value = domains
+
+        settings_mock = Mock()
+        settings_mock.get_domain = Mock(return_value=domain)
+
+        domain_combo_mock = Mock()
+        domain_combo_mock.populate = Mock()
+
+        instance = BaseCore(Mock(), True)
+        instance.initialized = True
+        instance.settings = settings_mock
+        instance.domain_combo = domain_combo_mock
+        instance._load_domains()
+
+        domain_combo_mock.populate.assert_called_once_with(domains_sorted, domain, trigger_callback=False)

@@ -137,6 +137,7 @@ class BaseCore(ActionCore):
         domains = self._get_domains()
         if domain is not None and domain not in domains:
             domains.append(domain)
+        domains = [d for d in domains if d is not None]
         domains.sort()
         self.domain_combo.populate(domains, domain, trigger_callback=False)
 
@@ -147,8 +148,9 @@ class BaseCore(ActionCore):
         entities = self.plugin_base.backend.get_entities(
             str(self.domain_combo.get_selected_item())
         )
-        if entity not in entities:
+        if entity is not None and entity not in entities:
             entities.append(entity)
+        entities = [e for e in entities if e is not None]
         entities.sort()
         self.entity_combo.populate(entities, entity, trigger_callback=False)
 
