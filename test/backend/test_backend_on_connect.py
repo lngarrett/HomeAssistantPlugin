@@ -17,7 +17,8 @@ class TestBackendOnConnect(unittest.TestCase):
     @patch.object(HomeAssistantBackend, '_load_actions')
     @patch.object(HomeAssistantBackend, '_readd_tracked_entities')
     @patch("HomeAssistantPlugin.backend.home_assistant_backend.log.info")
-    def test_on_connect_success(self, log_mock, readd_tracked_entities_mock, load_actions_mock, load_entities_mock, _):
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.GLib.idle_add", side_effect=lambda f, *args: f(*args))
+    def test_on_connect_success(self, idle_add_mock, log_mock, readd_tracked_entities_mock, load_actions_mock, load_entities_mock, _):
         connection_status_callback_mock = Mock()
 
         ready_mock = Mock()

@@ -124,8 +124,9 @@ class PerformAction(BaseCore):
             str(self.domain_combo.get_selected_item())
         )
         actions = list(actions_dict.keys())
-        if action not in actions:
+        if action is not None and action not in actions:
             actions.append(action)
+        actions = [a for a in actions if a is not None]
         self.action_combo.populate(actions, action, update_settings=True, trigger_callback=False)
         parameters_helper.load_parameters(self)
 

@@ -86,3 +86,36 @@ class TestPerformActionOnChangeAction(unittest.TestCase):
         )
         load_parameters_mock.assert_called_once_with(instance)
 
+
+    @patch('HomeAssistantPlugin.actions.perform_action.perform_action.BaseCore.__init__')
+    @patch(
+        'HomeAssistantPlugin.actions.perform_action.parameters.parameters_helper.load_parameters')
+    def test_load_actions_none_action(self, load_parameters_mock, _):
+        settings_mock = Mock()
+        settings_mock.get_action = Mock(return_value=None)
+
+        domain_combo_mock = Mock()
+        domain_combo_mock.get_selected_item = Mock(return_value='test_domain')
+
+        action_combo_mock = Mock()
+        action_combo_mock.populate = Mock()
+
+        plugin_base_mock = Mock()
+        plugin_base_mock.backend = Mock()
+        plugin_base_mock.backend.get_actions = Mock(return_value={'one_action': {}, 'another_action': {}})
+
+        instance = PerformAction()
+        instance.initialized = True
+        instance.settings = settings_mock
+        instance.plugin_base = plugin_base_mock
+        instance.domain_combo = domain_combo_mock
+        instance.action_combo = action_combo_mock
+        instance._load_actions()
+
+        action_combo_mock.populate.assert_called_once_with(
+            ['one_action', 'another_action'],
+            None,
+            update_settings=True,
+            trigger_callback=False
+        )
+        load_parameters_mock.assert_called_once_with(instance)
