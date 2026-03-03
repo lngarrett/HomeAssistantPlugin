@@ -30,6 +30,7 @@ class TestBaseCoreLoadEntities(unittest.TestCase):
 
         entity_combo_mock = Mock()
         entity_combo_mock.populate = Mock()
+        entity_combo_mock.get_item_amount.return_value = 0
 
         instance = BaseCore(Mock(), True)
         instance.initialized = True
@@ -61,6 +62,7 @@ class TestBaseCoreLoadEntities(unittest.TestCase):
 
         entity_combo_mock = Mock()
         entity_combo_mock.populate = Mock()
+        entity_combo_mock.get_item_amount.return_value = 0
 
         instance = BaseCore(Mock(), True)
         instance.initialized = True
@@ -92,6 +94,7 @@ class TestBaseCoreLoadEntities(unittest.TestCase):
 
         entity_combo_mock = Mock()
         entity_combo_mock.populate = Mock()
+        entity_combo_mock.get_item_amount.return_value = 0
 
         instance = BaseCore(Mock(), True)
         instance.initialized = True
@@ -102,3 +105,31 @@ class TestBaseCoreLoadEntities(unittest.TestCase):
         instance._load_entities()
 
         entity_combo_mock.populate.assert_called_once_with(entities_sorted, entity, trigger_callback=False)
+
+    @patch.object(BaseCore, "_create_ui_elements")
+    @patch.object(BaseCore, "_create_event_assigner")
+    def test_load_entities_no_update_needed(self, _, __):
+        domain = "light"
+        entities = ["light.bedroom", "light.kitchen", "light.living_room"]
+        entity = "light.living_room"
+
+        settings_mock = Mock()
+        settings_mock.get_entity = Mock(return_value=entity)
+
+        domain_combo_mock = Mock()
+        domain_combo_mock.get_selected_item = Mock(return_value=domain)
+
+        entity_combo_mock = Mock()
+        entity_combo_mock.populate = Mock()
+        entity_combo_mock.get_item_amount.return_value = 3
+        entity_combo_mock.get_item_at.side_effect = ["light.bedroom", "light.kitchen", "light.living_room"]
+
+        instance = BaseCore(Mock(), True)
+        instance.initialized = True
+        instance.settings = settings_mock
+        instance.domain_combo = domain_combo_mock
+        instance.entity_combo = entity_combo_mock
+        instance.plugin_base.backend.get_entities.return_value = entities
+        instance._load_entities()
+
+        entity_combo_mock.populate.assert_not_called()

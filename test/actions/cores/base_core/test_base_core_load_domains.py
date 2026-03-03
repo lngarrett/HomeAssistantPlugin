@@ -29,6 +29,7 @@ class TestBaseCoreLoadDomains(unittest.TestCase):
 
         domain_combo_mock = Mock()
         domain_combo_mock.populate = Mock()
+        domain_combo_mock.get_item_amount.return_value = 0
 
         instance = BaseCore(Mock(), True)
         instance.initialized = True
@@ -56,6 +57,7 @@ class TestBaseCoreLoadDomains(unittest.TestCase):
 
         domain_combo_mock = Mock()
         domain_combo_mock.populate = Mock()
+        domain_combo_mock.get_item_amount.return_value = 0
 
         instance = BaseCore(Mock(), True)
         instance.initialized = True
@@ -83,6 +85,7 @@ class TestBaseCoreLoadDomains(unittest.TestCase):
 
         domain_combo_mock = Mock()
         domain_combo_mock.populate = Mock()
+        domain_combo_mock.get_item_amount.return_value = 0
 
         instance = BaseCore(Mock(), True)
         instance.initialized = True
@@ -91,3 +94,28 @@ class TestBaseCoreLoadDomains(unittest.TestCase):
         instance._load_domains()
 
         domain_combo_mock.populate.assert_called_once_with(domains_sorted, domain, trigger_callback=False)
+
+    @patch.object(BaseCore, "_create_ui_elements")
+    @patch.object(BaseCore, "_create_event_assigner")
+    @patch.object(BaseCore, "_get_domains")
+    def test_load_domains_no_update_needed(self, get_domains_mock, _, __):
+        domains = ["light", "sensor", "switch"]
+        domain = "light"
+
+        get_domains_mock.return_value = domains
+
+        settings_mock = Mock()
+        settings_mock.get_domain = Mock(return_value=domain)
+
+        domain_combo_mock = Mock()
+        domain_combo_mock.populate = Mock()
+        domain_combo_mock.get_item_amount.return_value = 3
+        domain_combo_mock.get_item_at.side_effect = ["light", "sensor", "switch"]
+
+        instance = BaseCore(Mock(), True)
+        instance.initialized = True
+        instance.settings = settings_mock
+        instance.domain_combo = domain_combo_mock
+        instance._load_domains()
+
+        domain_combo_mock.populate.assert_not_called()
