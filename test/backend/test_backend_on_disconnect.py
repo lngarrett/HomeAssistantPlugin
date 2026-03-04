@@ -27,7 +27,8 @@ class TestBackendOnDisconnect(unittest.TestCase):
     @patch.object(HomeAssistantBackend, 'connect')
     @patch("HomeAssistantPlugin.backend.home_assistant_backend.sleep")
     @patch("HomeAssistantPlugin.backend.home_assistant_backend.log.info")
-    def test_on_disconnect_websocket_changed_during_sleep(self, log_mock, sleep_mock, connect_mock):
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.GLib.idle_add", side_effect=lambda f, *args: f(*args))
+    def test_on_disconnect_websocket_changed_during_sleep(self, idle_add_mock, log_mock, sleep_mock, connect_mock):
         action_mock = Mock()
         action_ready_callbacks = [action_mock] * 3
         websocket_mock = Mock()
@@ -46,7 +47,8 @@ class TestBackendOnDisconnect(unittest.TestCase):
     @patch.object(HomeAssistantBackend, 'connect')
     @patch("HomeAssistantPlugin.backend.home_assistant_backend.sleep")
     @patch("HomeAssistantPlugin.backend.home_assistant_backend.log.info")
-    def test_on_disconnect_success(self, log_mock, sleep_mock, connect_mock):
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.GLib.idle_add", side_effect=lambda f, *args: f(*args))
+    def test_on_disconnect_success(self, idle_add_mock, log_mock, sleep_mock, connect_mock):
         action_mock = Mock()
         action_ready_callbacks = [action_mock] * 3
         websocket_mock = Mock()

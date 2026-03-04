@@ -13,7 +13,8 @@ from HomeAssistantPlugin.backend import backend_const
 class TestBackendOnEventMessage(unittest.TestCase):
 
     @patch.object(HomeAssistantBackend, 'connect')
-    def test_on_event_message_no_new_state(self, _):
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.GLib.idle_add", side_effect=lambda f, *args: f(*args))
+    def test_on_event_message_no_new_state(self, idle_add_mock, _):
         wrong_mock = Mock()
         right_mock = Mock()
 
@@ -64,7 +65,8 @@ class TestBackendOnEventMessage(unittest.TestCase):
     @patch.object(HomeAssistantBackend, 'connect')
     @patch.object(HomeAssistantBackend, 'is_connected')
     @patch("HomeAssistantPlugin.backend.home_assistant_backend.log.warning")
-    def test_on_event_message_not_subscribed(self, log_mock, is_connected_mock, _):
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.GLib.idle_add", side_effect=lambda f, *args: f(*args))
+    def test_on_event_message_not_subscribed(self, idle_add_mock, log_mock, is_connected_mock, _):
         wrong_mock = Mock()
 
         entities = {
@@ -112,7 +114,8 @@ class TestBackendOnEventMessage(unittest.TestCase):
 
     @patch.object(HomeAssistantBackend, 'connect')
     @patch.object(HomeAssistantBackend, 'is_connected', return_value=True)
-    def test_on_event_message_success(self, is_connected_mock, _):
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.GLib.idle_add", side_effect=lambda f, *args: f(*args))
+    def test_on_event_message_success(self, idle_add_mock, is_connected_mock, _):
         wrong_mock = Mock()
         right_mock = Mock()
 
@@ -172,3 +175,69 @@ class TestBackendOnEventMessage(unittest.TestCase):
             backend_const.HA_CONNECTED: True,
         })
 
+    @patch.object(HomeAssistantBackend, 'connect')
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.GLib.idle_add", side_effect=lambda f, *args: f(*args))
+    def test_on_event_message_unknown_entity_no_new_state(self, idle_add_mock, _):
+        wrong_mock = Mock()
+
+        entities = {
+            "domain1": {
+                "domain1.entity1": {
+                    backend_const.ACTIONS: {wrong_mock},
+                    backend_const.SUBSCRIPTION_ID: "1.3"
+                }
+            }
+        }
+
+        message = {
+            backend_const.FIELD_EVENT: {
+                backend_const.VARIABLES: {
+                    backend_const.TRIGGER: {
+                        backend_const.FROM_STATE: {
+                            backend_const.ENTITY_ID: "domain1.unknown_entity"
+                        },
+                    }
+                }
+            }
+        }
+
+        instance = HomeAssistantBackend(backend_const.EMPTY_STRING, backend_const.EMPTY_STRING, True, True, backend_const.EMPTY_STRING)
+        instance._entities = entities
+        instance._on_event_message(message)
+
+        wrong_mock.assert_not_called()
+
+    @patch.object(HomeAssistantBackend, 'connect')
+    @patch.object(HomeAssistantBackend, 'is_connected', return_value=True)
+    @patch("HomeAssistantPlugin.backend.home_assistant_backend.GLib.idle_add", side_effect=lambda f, *args: f(*args))
+    def test_on_event_message_unknown_entity_with_new_state(self, idle_add_mock, is_connected_mock, _):
+        wrong_mock = Mock()
+
+        entities = {
+            "domain1": {
+                "domain1.entity1": {
+                    backend_const.ACTIONS: {wrong_mock},
+                    backend_const.SUBSCRIPTION_ID: "1.3"
+                }
+            }
+        }
+
+        message = {
+            backend_const.FIELD_EVENT: {
+                backend_const.VARIABLES: {
+                    backend_const.TRIGGER: {
+                        backend_const.TO_STATE: {
+                            backend_const.ENTITY_ID: "domain1.unknown_entity",
+                            backend_const.STATE: backend_const.OFF,
+                            backend_const.ATTRIBUTES: {}
+                        },
+                    }
+                }
+            }
+        }
+
+        instance = HomeAssistantBackend(backend_const.EMPTY_STRING, backend_const.EMPTY_STRING, True, True, backend_const.EMPTY_STRING)
+        instance._entities = entities
+        instance._on_event_message(message)
+
+        wrong_mock.assert_not_called()
