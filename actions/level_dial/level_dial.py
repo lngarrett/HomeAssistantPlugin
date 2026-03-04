@@ -1,0 +1,319 @@
+"""Dial action for controlling Home Assistant entities via Stream Deck Plus dials."""
+
+import json
+import os
+import threading
+from io import BytesIO
+from typing import Dict, List
+
+# Available in the StreamController flatpak runtime; graceful fallback for unit tests
+try:
+    import cairosvg
+    from PIL import Image
+    from loguru import logger as log
+except ImportError:
+    cairosvg = None
+    Image = None
+    import logging
+    log = logging.getLogger(__name__)
+
+from GtkHelper.GenerativeUI.EntryRow import EntryRow
+from GtkHelper.GenerativeUI.ScaleRow import ScaleRow
+from src.backend.DeckManagement.InputIdentifier import Input
+from src.backend.PluginManager.EventAssigner import EventAssigner
+from HomeAssistantPlugin.actions.level_dial import level_const
+from HomeAssistantPlugin.actions.level_dial.level_settings import LevelDialSettings
+from HomeAssistantPlugin.actions.cores.base_core.base_core import BaseCore, requires_initialization
+
+# Load MDI icons once at import time
+_MDI_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "assets", "mdi-svg.json")
+with open(_MDI_PATH, "r", encoding="utf-8") as _f:
+    _MDI_ICONS: Dict[str, str] = json.load(_f)
+
+
+_ICON_CACHE: Dict = {}
+
+
+def _get_icon_image(icon_name: str, color_hex: str, opacity: float = 1.0):
+    """Build a PIL Image from an MDI icon name, color, and opacity."""
+    cache_key = f"{icon_name}:{color_hex}:{opacity}"
+    if cache_key in _ICON_CACHE:
+        return _ICON_CACHE[cache_key].copy()
+
+    path_d = _MDI_ICONS.get(icon_name, "")
+    if not path_d:
+        return None
+
+    svg = (
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 24 24">'
+        f'<path d="{path_d}" fill="{color_hex}" opacity="{opacity}"/></svg>'
+    )
+    try:
+        png_data = cairosvg.svg2png(bytestring=svg.encode("utf-8"), output_width=300, output_height=300)
+        img = Image.open(BytesIO(png_data)).convert("RGBA")
+        _ICON_CACHE[cache_key] = img
+        return img.copy()
+    except Exception as e:
+        log.error("LevelDial icon render failed: %s", e)
+        return None
+
+
+def _get_entity_icon(state: dict, fallback: str) -> str:
+    """Extract the MDI icon name from an entity's state attributes."""
+    icon = state.get("attributes", {}).get("icon", "")
+    if icon.startswith("mdi:"):
+        icon = icon[4:]
+    return icon if icon else fallback
+
+
+class LevelDial(BaseCore):
+    """Dial action that controls Home Assistant entity levels (brightness, fan speed, etc.)."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            settings_implementation=LevelDialSettings,
+            track_entity=True,
+            *args, **kwargs
+        )
+
+    def on_ready(self) -> None:
+        super().on_ready()
+        self._reload()
+
+    def get_config_rows(self) -> List:
+        return [
+            self.domain_combo.widget,
+            self.entity_combo.widget,
+            self.label_entry.widget,
+            self.step_scale.widget,
+            self.batch_delay_scale.widget,
+        ]
+
+    def _create_ui_elements(self) -> None:
+        super()._create_ui_elements()
+
+        self.label_entry: EntryRow = EntryRow(
+            self, level_const.SETTING_LEVEL_LABEL, level_const.DEFAULT_LABEL,
+            title=level_const.LABEL_LEVEL_LABEL,
+            on_change=self._reload, can_reset=False,
+            complex_var_name=True
+        )
+
+        self.step_scale: ScaleRow = ScaleRow(
+            self, level_const.SETTING_LEVEL_STEP, level_const.DEFAULT_STEP,
+            level_const.MIN_STEP, level_const.MAX_STEP,
+            title=level_const.LABEL_LEVEL_STEP,
+            step=1, digits=0, on_change=self._reload, can_reset=False,
+            complex_var_name=True
+        )
+
+        self.batch_delay_scale: ScaleRow = ScaleRow(
+            self, level_const.SETTING_LEVEL_BATCH_DELAY, level_const.DEFAULT_BATCH_DELAY,
+            level_const.MIN_BATCH_DELAY, level_const.MAX_BATCH_DELAY,
+            title=level_const.LABEL_LEVEL_BATCH_DELAY,
+            step=10, digits=0, on_change=self._reload, can_reset=False,
+            complex_var_name=True
+        )
+
+    def _create_event_assigner(self) -> None:
+        self.add_event_assigner(EventAssigner(
+            id="Dial Turn CW",
+            ui_label="Dial Turn CW",
+            default_events=[Input.Dial.Events.TURN_CW],
+            callback=self._on_dial_turn_cw
+        ))
+        self.add_event_assigner(EventAssigner(
+            id="Dial Turn CCW",
+            ui_label="Dial Turn CCW",
+            default_events=[Input.Dial.Events.TURN_CCW],
+            callback=self._on_dial_turn_ccw
+        ))
+        self.add_event_assigner(EventAssigner(
+            id="Dial Short Up",
+            ui_label="Dial Short Up",
+            default_events=[Input.Dial.Events.SHORT_UP],
+            callback=self._on_dial_short_up
+        ))
+
+    @requires_initialization
+    def _on_dial_turn_cw(self, _=None) -> None:
+        self._adjust_level(1)
+
+    @requires_initialization
+    def _on_dial_turn_ccw(self, _=None) -> None:
+        self._adjust_level(-1)
+
+    @requires_initialization
+    def _on_dial_short_up(self, _=None) -> None:
+        entity = self.settings.get_entity()
+        if not entity:
+            return
+        domain = entity.split(".")[0]
+        config = level_const.DOMAIN_CONFIGS.get(domain)
+        if not config:
+            return
+        self.plugin_base.backend.perform_action(domain, config["toggle_service"], entity, {})
+
+    def _adjust_level(self, direction: int) -> None:
+        entity = self.settings.get_entity()
+        if not entity:
+            return
+
+        domain = entity.split(".")[0]
+        config = level_const.DOMAIN_CONFIGS.get(domain)
+        if not config:
+            return
+
+        state = self.plugin_base.backend.get_entity(entity)
+        if state is None:
+            return
+
+        step = self.settings.get_step()
+        level_range = config["level_max"] - config["level_min"]
+
+        # Work in percentage space to avoid rounding accumulation.
+        # Use pending percentage if we have one, otherwise convert from HA state.
+        pending_pct = getattr(self, "_pending_pct", None)
+        if pending_pct is None:
+            reported = state.get("attributes", {}).get(config["level_attr"], 0) or 0
+            pending_pct = (reported - config["level_min"]) / level_range * 100
+
+        # Fine-grained 1% steps in the bottom 10%, or when a full step
+        # down would cross into the bottom 10%
+        pct_after = pending_pct + (step * direction)
+        effective_step = 1 if pending_pct <= 10 or (direction < 0 and pct_after < 10) else step
+
+        # Clamp to 1% floor (dial can't turn off — that's what toggle is for)
+        new_pct = max(1, min(100, pending_pct + (effective_step * direction)))
+        self._pending_pct = new_pct
+
+        # Convert to native value for the HA command
+        new_value = config["level_min"] + (new_pct / 100) * level_range
+        if isinstance(config["level_max"], int):
+            new_value = round(new_value)
+
+        # Update the display immediately so the user sees feedback
+        self.set_center_label(
+            f"{round(new_pct)}%", color=[255, 255, 255], font_size=28,
+            outline_width=3, outline_color=[0, 0, 0]
+        )
+
+        # Debounce the HA command — cancel any pending timer, start a new one
+        batch_delay = self.settings.get_batch_delay()
+        self._pending_command = (domain, config["set_service"], entity, {config["set_param"]: new_value})
+
+        timer = getattr(self, "_batch_timer", None)
+        if timer is not None:
+            timer.cancel()
+
+        if batch_delay <= 0:
+            self._send_pending_command()
+        else:
+            self._batch_timer = threading.Timer(
+                batch_delay / 1000.0, self._send_pending_command
+            )
+            self._batch_timer.start()
+
+    def _send_pending_command(self) -> None:
+        """Send the most recent pending command to Home Assistant."""
+        cmd = getattr(self, "_pending_command", None)
+        if cmd is None:
+            return
+        self._pending_command = None
+        self._batch_timer = None
+        domain, service, entity, params = cmd
+        self.plugin_base.backend.perform_action(domain, service, entity, params)
+
+    def refresh(self, state: dict = None) -> None:
+        if not self.initialized:
+            return
+
+        # If we have an unsent command (debounce timer active), don't let
+        # intermediate HA state updates override the pending target or display.
+        if getattr(self, "_batch_timer", None) is not None:
+            return
+
+        # Clear pending target so _adjust_level re-syncs from HA state
+        self._pending_pct = None
+        entity = self.settings.get_entity()
+        if not entity:
+            self.set_top_label("")
+            self.set_center_label("")
+            self.set_media()
+            return
+
+        if state is None:
+            state = self.plugin_base.backend.get_entity(entity)
+
+        if state is None:
+            self.set_top_label("")
+            self.set_center_label("N/A")
+            self.set_media()
+            return
+
+        # Label
+        label = self.settings.get_label()
+        if not label:
+            label = state.get("attributes", {}).get("friendly_name", "")
+        self.set_top_label(label, font_size=14)
+
+        # Domain config
+        domain = entity.split(".")[0]
+        config = level_const.DOMAIN_CONFIGS.get(domain)
+        if not config:
+            self.set_center_label("?")
+            return
+
+        # Icon from entity state, with domain-appropriate fallback
+        icon_name = _get_entity_icon(state, config["fallback_icon"])
+
+        # State & level
+        entity_state = state.get("state", "off")
+        level = state.get("attributes", {}).get(config["level_attr"])
+
+        if entity_state in ("off", "unavailable", "unknown") or level is None:
+            self.set_center_label(
+                "Off", color=[100, 100, 100], font_size=28,
+                outline_width=3, outline_color=[0, 0, 0]
+            )
+            icon_img = _get_icon_image(icon_name, level_const.COLOR_OFF, opacity=0.85)
+        else:
+            level_range = config["level_max"] - config["level_min"]
+            pct = round((level - config["level_min"]) / level_range * 100)
+            self.set_center_label(
+                f"{pct}%", color=[255, 255, 255], font_size=28,
+                outline_width=3, outline_color=[0, 0, 0]
+            )
+            icon_img = _get_icon_image(icon_name, level_const.COLOR_ON, opacity=0.75)
+
+        if icon_img:
+            self.set_media(image=icon_img, size=0.75)
+
+    @requires_initialization
+    def _set_enabled_disabled(self) -> None:
+        super()._set_enabled_disabled()
+        domain = self.settings.get_domain()
+        entity = self.settings.get_entity()
+        has_entity = bool(domain) and bool(entity)
+
+        if not has_entity:
+            self.label_entry.widget.set_sensitive(False)
+            self.step_scale.widget.set_sensitive(False)
+            self.step_scale.widget.set_subtitle(
+                self.lm.get(level_const.LABEL_LEVEL_NO_ENTITY)
+            )
+            self.batch_delay_scale.widget.set_sensitive(False)
+            self.batch_delay_scale.widget.set_subtitle(
+                self.lm.get(level_const.LABEL_LEVEL_NO_ENTITY)
+            )
+        else:
+            self.label_entry.widget.set_sensitive(True)
+            self.step_scale.widget.set_sensitive(True)
+            self.step_scale.widget.set_subtitle(level_const.EMPTY_STRING)
+            self.batch_delay_scale.widget.set_sensitive(True)
+            self.batch_delay_scale.widget.set_subtitle(level_const.EMPTY_STRING)
+
+    @requires_initialization
+    def _get_domains(self) -> List[str]:
+        available = set(self.plugin_base.backend.get_domains_for_entities())
+        return [d for d in level_const.DOMAIN_CONFIGS if d in available]
