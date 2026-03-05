@@ -215,7 +215,7 @@ class ShowText(CustomizationCore):
     def _load_attributes(self):
         attribute = self.settings.get_attribute()
         attributes = self._get_attributes()
-        if attribute not in attributes:
+        if attribute is not None and attribute not in attributes:
             attributes.append(attribute)
         if Counter(attributes) != Counter(self._get_current_attributes()):
             self.attribute.populate(attributes, attribute, trigger_callback=False)
