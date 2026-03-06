@@ -14,7 +14,7 @@ from HomeAssistantPlugin.actions.level_dial.level_dial import LevelDial
 
 class TestLevelDialRefresh(unittest.TestCase):
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_refresh_not_initialized(self, _):
         instance = LevelDial()
         instance.initialized = False
@@ -23,7 +23,7 @@ class TestLevelDialRefresh(unittest.TestCase):
 
         instance.set_top_label.assert_not_called()
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_refresh_no_entity(self, _):
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="")
@@ -40,7 +40,7 @@ class TestLevelDialRefresh(unittest.TestCase):
         instance.set_center_label.assert_called_once_with("")
         instance.set_media.assert_called_once_with()
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_refresh_entity_state_none_fetches_from_backend(self, _):
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="light.desk")
@@ -64,14 +64,17 @@ class TestLevelDialRefresh(unittest.TestCase):
         instance.set_center_label.assert_called_once_with("N/A")
         instance.set_media.assert_called_once_with()
 
+    @patch.object(LevelDial, '_set_enabled_disabled')
+    @patch.object(LevelDial, '_load_customizations')
     @patch('HomeAssistantPlugin.actions.level_dial.level_dial._get_icon_image')
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
-    def test_refresh_entity_off(self, _, mock_get_icon):
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
+    def test_refresh_entity_off(self, _, mock_get_icon, _load_cust, _set_ed):
         mock_get_icon.return_value = Mock(name="fake_image")
 
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="light.desk")
         settings_mock.get_label = Mock(return_value="Desk")
+        settings_mock.get_customizations = Mock(return_value=[])
 
         state = {
             "state": "off",
@@ -93,14 +96,17 @@ class TestLevelDialRefresh(unittest.TestCase):
         )
         instance.set_media.assert_called_once_with(image=mock_get_icon.return_value, size=0.75)
 
+    @patch.object(LevelDial, '_set_enabled_disabled')
+    @patch.object(LevelDial, '_load_customizations')
     @patch('HomeAssistantPlugin.actions.level_dial.level_dial._get_icon_image')
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
-    def test_refresh_entity_unavailable(self, _, mock_get_icon):
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
+    def test_refresh_entity_unavailable(self, _, mock_get_icon, _load_cust, _set_ed):
         mock_get_icon.return_value = Mock(name="fake_image")
 
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="light.desk")
         settings_mock.get_label = Mock(return_value="")
+        settings_mock.get_customizations = Mock(return_value=[])
 
         state = {
             "state": "unavailable",
@@ -121,14 +127,17 @@ class TestLevelDialRefresh(unittest.TestCase):
             outline_width=3, outline_color=[0, 0, 0]
         )
 
+    @patch.object(LevelDial, '_set_enabled_disabled')
+    @patch.object(LevelDial, '_load_customizations')
     @patch('HomeAssistantPlugin.actions.level_dial.level_dial._get_icon_image')
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
-    def test_refresh_entity_on_with_brightness(self, _, mock_get_icon):
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
+    def test_refresh_entity_on_with_brightness(self, _, mock_get_icon, _load_cust, _set_ed):
         mock_get_icon.return_value = Mock(name="fake_image")
 
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="light.desk")
         settings_mock.get_label = Mock(return_value="Desk")
+        settings_mock.get_customizations = Mock(return_value=[])
 
         state = {
             "state": "on",
@@ -150,14 +159,17 @@ class TestLevelDialRefresh(unittest.TestCase):
             outline_width=3, outline_color=[0, 0, 0]
         )
 
+    @patch.object(LevelDial, '_set_enabled_disabled')
+    @patch.object(LevelDial, '_load_customizations')
     @patch('HomeAssistantPlugin.actions.level_dial.level_dial._get_icon_image')
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
-    def test_refresh_fan_on_with_percentage(self, _, mock_get_icon):
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
+    def test_refresh_fan_on_with_percentage(self, _, mock_get_icon, _load_cust, _set_ed):
         mock_get_icon.return_value = Mock(name="fake_image")
 
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="fan.bedroom")
         settings_mock.get_label = Mock(return_value="")
+        settings_mock.get_customizations = Mock(return_value=[])
 
         state = {
             "state": "on",
@@ -178,11 +190,12 @@ class TestLevelDialRefresh(unittest.TestCase):
             outline_width=3, outline_color=[0, 0, 0]
         )
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_refresh_unsupported_domain_shows_question_mark(self, _):
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="switch.kitchen")
         settings_mock.get_label = Mock(return_value="Kitchen")
+        settings_mock.get_customizations = Mock(return_value=[])
 
         state = {
             "state": "on",
@@ -199,15 +212,18 @@ class TestLevelDialRefresh(unittest.TestCase):
 
         instance.set_center_label.assert_called_once_with("?")
 
+    @patch.object(LevelDial, '_set_enabled_disabled')
+    @patch.object(LevelDial, '_load_customizations')
     @patch('HomeAssistantPlugin.actions.level_dial.level_dial._get_icon_image')
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
-    def test_refresh_level_none_shows_off(self, _, mock_get_icon):
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
+    def test_refresh_level_none_shows_off(self, _, mock_get_icon, _load_cust, _set_ed):
         """Entity is 'on' but level attribute is missing -> shows Off."""
         mock_get_icon.return_value = Mock(name="fake_image")
 
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="light.desk")
         settings_mock.get_label = Mock(return_value="Desk")
+        settings_mock.get_customizations = Mock(return_value=[])
 
         state = {
             "state": "on",
@@ -227,14 +243,17 @@ class TestLevelDialRefresh(unittest.TestCase):
             outline_width=3, outline_color=[0, 0, 0]
         )
 
+    @patch.object(LevelDial, '_set_enabled_disabled')
+    @patch.object(LevelDial, '_load_customizations')
     @patch('HomeAssistantPlugin.actions.level_dial.level_dial._get_icon_image')
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
-    def test_refresh_none_icon_does_not_set_media(self, _, mock_get_icon):
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
+    def test_refresh_none_icon_does_not_set_media(self, _, mock_get_icon, _load_cust, _set_ed):
         mock_get_icon.return_value = None
 
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="light.desk")
         settings_mock.get_label = Mock(return_value="Desk")
+        settings_mock.get_customizations = Mock(return_value=[])
 
         state = {
             "state": "on",

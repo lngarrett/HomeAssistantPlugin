@@ -55,7 +55,7 @@ class HomeAssistant(PluginBase):  # pylint: disable=too-few-public-methods
             action_name=PERFORM_ACTION,
             action_support={
                 Input.Key: ActionInputSupport.SUPPORTED,
-                Input.Dial: ActionInputSupport.UNSUPPORTED,
+                Input.Dial: ActionInputSupport.SUPPORTED,
                 Input.Touchscreen: ActionInputSupport.UNSUPPORTED
             }
         )
@@ -67,7 +67,7 @@ class HomeAssistant(PluginBase):  # pylint: disable=too-few-public-methods
             action_name=SHOW_ICON,
             action_support={
                 Input.Key: ActionInputSupport.SUPPORTED,
-                Input.Dial: ActionInputSupport.UNSUPPORTED,
+                Input.Dial: ActionInputSupport.SUPPORTED,
                 Input.Touchscreen: ActionInputSupport.UNSUPPORTED
             }
         )
@@ -79,7 +79,7 @@ class HomeAssistant(PluginBase):  # pylint: disable=too-few-public-methods
             action_name=SHOW_TEXT,
             action_support={
                 Input.Key: ActionInputSupport.SUPPORTED,
-                Input.Dial: ActionInputSupport.UNSUPPORTED,
+                Input.Dial: ActionInputSupport.SUPPORTED,
                 Input.Touchscreen: ActionInputSupport.UNSUPPORTED
             }
         )

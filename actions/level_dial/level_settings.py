@@ -1,20 +1,23 @@
 """Module to manage Level Dial settings."""
 
 from HomeAssistantPlugin.actions.level_dial import level_const
-from HomeAssistantPlugin.actions.cores.base_core.base_settings import BaseSettings
+from HomeAssistantPlugin.actions.cores.customization_core import customization_const
+from HomeAssistantPlugin.actions.cores.customization_core.customization_settings import CustomizationSettings
+from HomeAssistantPlugin.actions.level_dial.level_customization import LevelDialCustomization
 
 DEFAULT_SETTINGS = {
     level_const.SETTING_STEP: level_const.DEFAULT_STEP,
     level_const.SETTING_LABEL: level_const.DEFAULT_LABEL,
     level_const.SETTING_BATCH_DELAY: level_const.DEFAULT_BATCH_DELAY,
+    customization_const.SETTING_CUSTOMIZATIONS: []
 }
 
 
-class LevelDialSettings(BaseSettings):
+class LevelDialSettings(CustomizationSettings):
     """Settings manager for the Level Dial action."""
 
     def __init__(self, action):
-        super().__init__(action)
+        super().__init__(action, level_const.SETTING_LEVEL, LevelDialCustomization)
 
         if not self._action.get_settings().get(level_const.SETTING_LEVEL):
             settings = self._action.get_settings()

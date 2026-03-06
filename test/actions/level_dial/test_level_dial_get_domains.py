@@ -14,7 +14,7 @@ from HomeAssistantPlugin.actions.level_dial.level_dial import LevelDial
 
 class TestLevelDialGetDomains(unittest.TestCase):
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_get_domains_filters_to_supported(self, _):
         """Only returns domains that are both in DOMAIN_CONFIGS and available from backend."""
         plugin_base_mock = Mock()
@@ -32,7 +32,7 @@ class TestLevelDialGetDomains(unittest.TestCase):
         self.assertEqual(result, ['light', 'fan'])
         plugin_base_mock.backend.get_domains_for_entities.assert_called_once()
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_get_domains_preserves_config_order(self, _):
         """Returned domains follow DOMAIN_CONFIGS key order, not backend order."""
         plugin_base_mock = Mock()
@@ -49,7 +49,7 @@ class TestLevelDialGetDomains(unittest.TestCase):
         # DOMAIN_CONFIGS order: light, fan, cover, media_player
         self.assertEqual(result, ['light', 'fan', 'cover', 'media_player'])
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_get_domains_none_available(self, _):
         plugin_base_mock = Mock()
         plugin_base_mock.backend = Mock()
@@ -64,7 +64,7 @@ class TestLevelDialGetDomains(unittest.TestCase):
 
         self.assertEqual(result, [])
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_get_domains_not_initialized(self, _):
         settings_mock = Mock()
 
