@@ -137,8 +137,10 @@ class BaseCore(ActionCore):
         domains = self._get_domains()
         if domain is not None and domain not in domains:
             domains.append(domain)
+        domains = [d for d in domains if d is not None]
         domains.sort()
-        self.domain_combo.populate(domains, domain, trigger_callback=False)
+        if domains != self._get_current_domains():
+            self.domain_combo.populate(domains, domain, trigger_callback=False)
 
     @requires_initialization
     def _load_entities(self) -> None:
@@ -147,10 +149,26 @@ class BaseCore(ActionCore):
         entities = self.plugin_base.backend.get_entities(
             str(self.domain_combo.get_selected_item())
         )
-        if entity not in entities:
+        if entity is not None and entity not in entities:
             entities.append(entity)
+        entities = [e for e in entities if e is not None]
         entities.sort()
-        self.entity_combo.populate(entities, entity, trigger_callback=False)
+        if entities != self._get_current_entities():
+            self.entity_combo.populate(entities, entity, trigger_callback=False)
+
+    def _get_current_domains(self) -> List[str]:
+        """Get the domains currently displayed in the domain combo."""
+        return [
+            str(self.domain_combo.get_item_at(i))
+            for i in range(self.domain_combo.get_item_amount())
+        ]
+
+    def _get_current_entities(self) -> List[str]:
+        """Get the entities currently displayed in the entity combo."""
+        return [
+            str(self.entity_combo.get_item_at(i))
+            for i in range(self.entity_combo.get_item_amount())
+        ]
 
     @requires_initialization
     def _set_enabled_disabled(self) -> None:

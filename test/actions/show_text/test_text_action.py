@@ -531,3 +531,21 @@ class TestShowText(unittest.TestCase):
 
         instance.plugin_base.backend.get_domains_for_entities.assert_called_once()
         self.assertEqual(result, ["domain1", "domain2"])
+
+    def test_load_attributes_none_attribute(self):
+        instance = ShowText.__new__(ShowText)
+        instance.settings = Mock()
+        instance.settings.get_attribute.return_value = None
+        instance._get_attributes = Mock()
+        instance._get_attributes.return_value = ["attribute1", "attribute2"]
+        instance._get_current_attributes = Mock()
+        instance._get_current_attributes.return_value = ["attribute1", "attribute2", "attribute3"]
+        instance.attribute = Mock()
+
+        instance._load_attributes()
+
+        instance.attribute.populate.assert_called_once_with(
+            ["attribute1", "attribute2"],
+            None,
+            trigger_callback=False
+        )

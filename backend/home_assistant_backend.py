@@ -6,6 +6,7 @@ from threading import Thread
 from time import sleep
 from typing import Dict, Callable, Any, List, Set, Optional
 
+from gi.repository import GLib
 from loguru import logger as log
 
 from HomeAssistantPlugin.backend import backend_const
@@ -116,7 +117,7 @@ class HomeAssistantBackend:
         self._readd_tracked_entities()
 
         for ready in self._action_ready_callbacks:
-            ready()
+            GLib.idle_add(ready)
 
     def _on_event_message(self, message: Dict) -> None:
         new_state = (
@@ -135,15 +136,19 @@ class HomeAssistantBackend:
                 .get(backend_const.FROM_STATE, {})
                 .get(backend_const.ENTITY_ID)
             )
-            entity_settings = self._entities[entity_id.split(backend_const.DOT)[0]].get(entity_id)
+            entity_settings = self._entities.get(entity_id.split(backend_const.DOT)[0], {}).get(entity_id)
+            if entity_settings is None:
+                return
             actions = entity_settings.get(backend_const.ACTIONS, set())
             for action_entity_updated in actions:
-                action_entity_updated()
+                GLib.idle_add(action_entity_updated)
             return
 
         entity_id = new_state.get(backend_const.ENTITY_ID)
         domain = entity_id.split(backend_const.DOT)[0]
-        entity_settings = self._entities[domain].get(entity_id)
+        entity_settings = self._entities.get(domain, {}).get(entity_id)
+        if entity_settings is None:
+            return
         actions = entity_settings.get(backend_const.ACTIONS, set())
         state = new_state.get(backend_const.STATE)
         attributes = new_state.get(backend_const.ATTRIBUTES, {})
@@ -161,7 +166,7 @@ class HomeAssistantBackend:
             log.warning(backend_const.WARNING_NOT_SUBSCRIBED.format(entity_id))
 
         for action_entity_updated in actions:
-            action_entity_updated(update_state)
+            GLib.idle_add(action_entity_updated, update_state)
 
     def _on_disconnect(self, websocket: HomeAssistantWebsocket) -> None:
         if websocket != self._websocket:
@@ -169,7 +174,7 @@ class HomeAssistantBackend:
             return
         log.info(backend_const.INFO_DISCONNECTED)
         for ready in self._action_ready_callbacks:
-            ready()
+            GLib.idle_add(ready)
         sleep(backend_const.RECONNECT_INTERVAL)
         if websocket == self._websocket:
             # the websocket instance is still the same, so we can try to reconnect
