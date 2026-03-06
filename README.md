@@ -28,6 +28,7 @@
   - [Perform Action](#-perform-action)
   - [Show Icon](#-show-icon)
   - [Show Text](#-show-text)
+  - [Level Dial](#-level-dial)
 - [Examples](#-examples)
 - [Support](#-support)
 
@@ -75,6 +76,15 @@
   - 🔲 Outline size and color
 - Show unit of measurement (with optional line breaks)
 - **Dynamic customization** based on state or attribute values
+
+### 🎛️ Level Dial
+- Control entity levels with a Stream Deck Plus dial
+- Supports lights (brightness), fans (speed), covers (position), and media players (volume)
+- Turn CW/CCW to adjust level, press to toggle on/off
+- Displays current level as a percentage on the touchscreen
+- Shows the entity's icon with on/off color tinting
+- Configurable step size, display name, and command batching delay
+- **Dynamic customization** of icon and color based on state or attribute values
 
 ## 📥 Installation
 
@@ -242,6 +252,51 @@ Create conditional text appearances based on entity states.
 - ✏️ Edit, delete, and reorder customizations
 - 👁️ View current entity value for reference
 - ✅ Only checked settings are applied
+
+---
+
+### 🎛️ Level Dial
+
+Control Home Assistant entity levels directly from a Stream Deck Plus dial.
+
+**Configuration:**
+- **Entity**: Select the Home Assistant entity to control
+- **Display name**: Custom label for the touchscreen (defaults to entity's friendly name)
+- **Step size**: Percentage change per dial tick (1–50)
+- **Batch delay**: Milliseconds to wait for additional turns before sending the command (0–500)
+  - Prevents flooding your network with rapid dial turns
+
+**Supported Domains:**
+- **Lights**: Adjusts brightness (0–255 mapped to percentage)
+- **Fans**: Adjusts speed percentage
+- **Covers**: Adjusts position
+- **Media players**: Adjusts volume
+
+**Controls:**
+- **Turn CW/CCW**: Increase/decrease level
+- **Press**: Toggle entity on/off
+
+**Behavior:**
+- Displays the target percentage immediately on each tick, before Home Assistant confirms
+- Batches rapid turns into a single command to avoid mesh/network flooding
+- Fine-grained 1% steps below 10% for precise low-level control
+- Shows the entity's icon from Home Assistant with color tinting (on/off)
+
+#### 🎯 Level Dial Customization
+
+Create conditional icon and color appearances based on entity states.
+
+**Creating a Customization:**
+1. Click the ![Add customization](assets/action_customize_add.png) button in the **Customize** row
+2. Define a condition (state or attribute value)
+3. Configure icon and/or color changes when the condition is met
+
+**Features:**
+- ✏️ Edit, delete, and reorder customizations
+- 👁️ View current entity value for reference
+- ✅ Only checked settings are applied
+
+> **Cascading Behavior**: Like icon and text customizations, level dial customizations are evaluated in order. The last matching customization sets the final icon and color.
 
 ---
 

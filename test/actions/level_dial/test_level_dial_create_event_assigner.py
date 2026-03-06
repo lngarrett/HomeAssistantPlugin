@@ -15,7 +15,7 @@ from HomeAssistantPlugin.actions.level_dial.level_dial import LevelDial
 
 class TestLevelDialCreateEventAssigner(unittest.TestCase):
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     @patch('HomeAssistantPlugin.actions.level_dial.level_dial.EventAssigner')
     @patch.object(LevelDial, 'add_event_assigner')
     def test_create_event_assigner_registers_three_dial_events(self, add_event_assigner_mock, event_assigner_mock, _):

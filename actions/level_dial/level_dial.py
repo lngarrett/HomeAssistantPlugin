@@ -4,7 +4,7 @@ import json
 import os
 import threading
 from io import BytesIO
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 # Available in the StreamController flatpak runtime; graceful fallback for unit tests
 try:
@@ -21,9 +21,14 @@ from GtkHelper.GenerativeUI.EntryRow import EntryRow
 from GtkHelper.GenerativeUI.ScaleRow import ScaleRow
 from src.backend.DeckManagement.InputIdentifier import Input
 from src.backend.PluginManager.EventAssigner import EventAssigner
+from HomeAssistantPlugin.actions.cores.customization_core import customization_helper
+from HomeAssistantPlugin.actions.cores.customization_core.customization_core import CustomizationCore
+from HomeAssistantPlugin.actions.cores.base_core.base_core import requires_initialization
 from HomeAssistantPlugin.actions.level_dial import level_const
+from HomeAssistantPlugin.actions.level_dial.level_customization import LevelDialCustomization
+from HomeAssistantPlugin.actions.level_dial.level_row import LevelDialRow
 from HomeAssistantPlugin.actions.level_dial.level_settings import LevelDialSettings
-from HomeAssistantPlugin.actions.cores.base_core.base_core import BaseCore, requires_initialization
+from HomeAssistantPlugin.actions.level_dial.level_window import LevelDialWindow
 
 # Load MDI icons once at import time
 _MDI_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "assets", "mdi-svg.json")
@@ -66,15 +71,134 @@ def _get_entity_icon(state: dict, fallback: str) -> str:
     return icon if icon else fallback
 
 
-class LevelDial(BaseCore):
+def _evaluate_customizations(state: dict, customizations: List[LevelDialCustomization],
+                             default_icon: str, default_color: str) -> Tuple[str, str]:
+    """Evaluate customization rules against current state, returning (icon_name, color_hex)."""
+    icon_name = default_icon
+    color_hex = default_color
+
+    for customization in customizations:
+        if customization.get_attribute() == "state":
+            value = state.get("state")
+        else:
+            value = state.get("attributes", {}).get(customization.get_attribute())
+
+        custom_value = customization.get_value()
+
+        try:
+            value = float(value)
+            custom_value = float(custom_value)
+        except (ValueError, TypeError):
+            pass
+
+        operator = customization.get_operator()
+        matched = False
+
+        if operator == "==" and str(value) == str(custom_value):
+            matched = True
+        elif operator == "!=" and str(value) != str(custom_value):
+            matched = True
+        elif isinstance(value, float):
+            try:
+                custom_value = float(custom_value)
+            except (ValueError, TypeError):
+                continue
+
+            if ((operator == "<" and value < custom_value)
+                    or (operator == "<=" and value <= custom_value)
+                    or (operator == ">" and value > custom_value)
+                    or (operator == ">=" and value >= custom_value)):
+                matched = True
+
+        if matched:
+            if customization.get_icon() is not None:
+                icon_name = customization.get_icon()
+            if customization.get_color() is not None:
+                color_hex = customization_helper.convert_color_list_to_hex(customization.get_color())
+
+    return icon_name, color_hex
+
+
+class LevelDial(CustomizationCore):
     """Dial action that controls Home Assistant entity levels (brightness, fan speed, etc.)."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(
+            window_implementation=LevelDialWindow,
+            customization_implementation=LevelDialCustomization,
+            row_implementation=LevelDialRow,
             settings_implementation=LevelDialSettings,
             track_entity=True,
             *args, **kwargs
         )
+
+    def _should_force_label(self, position: str) -> bool:
+        """Check if we should bypass has_label_control for a position.
+
+        LevelDial always owns the top label (display name).  For other
+        positions it respects normal permission checks unless the control
+        index is orphaned.
+        """
+        if position == "top":
+            return True
+
+        label_index = 0 if position == "top" else 1 if position == "center" else 2
+        try:
+            control_index = self.get_state().action_permission_manager.get_label_control_index(label_index)
+            return self._is_control_orphaned(control_index)
+        except (AttributeError, TypeError):
+            return True
+
+    def _is_control_orphaned(self, control_index) -> bool:
+        """Check if a control index points to a non-existent action.
+
+        SC does not clean up image-control-action or label-control-actions
+        when an action is removed from a slot.
+        """
+        try:
+            actions = self.page.get_all_actions_for_input(self.input_ident, self.state)
+            return control_index is None or control_index >= len(actions)
+        except (AttributeError, TypeError):
+            return True
+
+    def set_media(self, image=None, media_path=None, size: float = None,
+                  valign: float = None, halign: float = None, fps: int = 30,
+                  loop: bool = True, update: bool = True):
+        """Override to reclaim image control when the index is orphaned."""
+        original = self.has_image_control
+        try:
+            image_index = self.get_state().action_permission_manager.get_image_control_index()
+            if self._is_control_orphaned(image_index):
+                self.has_image_control = lambda: True
+        except (AttributeError, TypeError):
+            self.has_image_control = lambda: True
+        try:
+            super().set_media(image=image, media_path=media_path, size=size,
+                              valign=valign, halign=halign, fps=fps, loop=loop, update=update)
+        finally:
+            self.has_image_control = original
+
+    def set_label(self, text: str, position: str = "bottom", color: list = None,
+                  font_family: str = None, font_size=None, outline_width: int = None,
+                  outline_color: list = None, font_weight: int = None,
+                  font_style: str = None, update: bool = True):
+        """Override to handle orphaned label permissions.
+
+        SC does not clean up label-control-actions when an action is removed.
+        LevelDial always writes the top label and reclaims other positions
+        when the control index points to a non-existent action.
+        """
+        if self._should_force_label(position):
+            original = self.has_label_control
+            self.has_label_control = lambda _: True
+            try:
+                super().set_label(text, position, color, font_family, font_size,
+                                  outline_width, outline_color, font_weight, font_style, update)
+            finally:
+                self.has_label_control = original
+        else:
+            super().set_label(text, position, color, font_family, font_size,
+                              outline_width, outline_color, font_weight, font_style, update)
 
     def on_ready(self) -> None:
         super().on_ready()
@@ -87,6 +211,7 @@ class LevelDial(BaseCore):
             self.label_entry.widget,
             self.step_scale.widget,
             self.batch_delay_scale.widget,
+            self.customization_expander.widget,
         ]
 
     def _create_ui_elements(self) -> None:
@@ -264,19 +389,30 @@ class LevelDial(BaseCore):
             self.set_center_label("?")
             return
 
-        # Icon from entity state, with domain-appropriate fallback
-        icon_name = _get_entity_icon(state, config["fallback_icon"])
+        # Default icon from entity state, with domain-appropriate fallback
+        default_icon = _get_entity_icon(state, config["fallback_icon"])
 
         # State & level
         entity_state = state.get("state", "off")
         level = state.get("attributes", {}).get(config["level_attr"])
 
         if entity_state in ("off", "unavailable", "unknown") or level is None:
+            default_color = level_const.COLOR_OFF
+        else:
+            default_color = level_const.COLOR_ON
+
+        # Apply customization rules (icon/color overrides based on state conditions)
+        customizations = self.settings.get_customizations()
+        icon_name, color_hex = _evaluate_customizations(
+            state, customizations, default_icon, default_color
+        )
+
+        if entity_state in ("off", "unavailable", "unknown") or level is None:
             self.set_center_label(
                 "Off", color=[100, 100, 100], font_size=28,
                 outline_width=3, outline_color=[0, 0, 0]
             )
-            icon_img = _get_icon_image(icon_name, level_const.COLOR_OFF, opacity=0.85)
+            icon_img = _get_icon_image(icon_name, color_hex, opacity=0.85)
         else:
             level_range = config["level_max"] - config["level_min"]
             pct = round((level - config["level_min"]) / level_range * 100)
@@ -284,10 +420,13 @@ class LevelDial(BaseCore):
                 f"{pct}%", color=[255, 255, 255], font_size=28,
                 outline_width=3, outline_color=[0, 0, 0]
             )
-            icon_img = _get_icon_image(icon_name, level_const.COLOR_ON, opacity=0.75)
+            icon_img = _get_icon_image(icon_name, color_hex, opacity=0.75)
 
         if icon_img:
             self.set_media(image=icon_img, size=0.75)
+
+        self._load_customizations()
+        self._set_enabled_disabled()
 
     @requires_initialization
     def _set_enabled_disabled(self) -> None:

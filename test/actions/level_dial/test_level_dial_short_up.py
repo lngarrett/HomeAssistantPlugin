@@ -14,7 +14,7 @@ from HomeAssistantPlugin.actions.level_dial.level_dial import LevelDial
 
 class TestLevelDialShortUp(unittest.TestCase):
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_short_up_not_initialized(self, _):
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="light.desk")
@@ -26,7 +26,7 @@ class TestLevelDialShortUp(unittest.TestCase):
 
         settings_mock.get_entity.assert_not_called()
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_short_up_no_entity(self, _):
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="")
@@ -43,7 +43,7 @@ class TestLevelDialShortUp(unittest.TestCase):
 
         backend_mock.perform_action.assert_not_called()
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_short_up_unsupported_domain(self, _):
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="switch.kitchen")
@@ -60,7 +60,7 @@ class TestLevelDialShortUp(unittest.TestCase):
 
         backend_mock.perform_action.assert_not_called()
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_short_up_light_toggles(self, _):
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="light.desk")
@@ -77,7 +77,7 @@ class TestLevelDialShortUp(unittest.TestCase):
 
         backend_mock.perform_action.assert_called_once_with("light", "toggle", "light.desk", {})
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_short_up_fan_toggles(self, _):
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="fan.bedroom")
@@ -94,7 +94,7 @@ class TestLevelDialShortUp(unittest.TestCase):
 
         backend_mock.perform_action.assert_called_once_with("fan", "toggle", "fan.bedroom", {})
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_short_up_media_player_play_pause(self, _):
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="media_player.speaker")
@@ -113,7 +113,7 @@ class TestLevelDialShortUp(unittest.TestCase):
             "media_player", "media_play_pause", "media_player.speaker", {}
         )
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_short_up_cover_toggles(self, _):
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="cover.garage")

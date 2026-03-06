@@ -35,7 +35,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         instance.set_center_label = Mock()
         return instance, backend_mock
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_no_entity(self, _):
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="")
@@ -53,7 +53,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         backend_mock.get_entity.assert_not_called()
         backend_mock.perform_action.assert_not_called()
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_unsupported_domain(self, _):
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="switch.kitchen")
@@ -71,7 +71,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
 
         backend_mock.perform_action.assert_not_called()
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_no_state(self, _):
         settings_mock = Mock()
         settings_mock.get_entity = Mock(return_value="light.desk")
@@ -91,7 +91,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
 
         backend_mock.perform_action.assert_not_called()
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_light_cw_mid_range(self, mock_init):
         """Light at 50% brightness (128), step 10 CW -> ~60% (154)."""
         instance, backend = self._make_instance(
@@ -112,7 +112,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         # 128 + (10/100 * 255) = 128 + 25.5 = 153.5 -> round to 154
         self.assertEqual(new_brightness, 154)
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_light_ccw_mid_range(self, mock_init):
         """Light at 50% brightness (128), step 10 CCW -> ~40% (102)."""
         instance, backend = self._make_instance(
@@ -129,7 +129,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         # 128 - 25.5 = 102.5 -> round to 102
         self.assertEqual(new_brightness, 102)
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_light_clamps_to_max(self, mock_init):
         """Light near max, step pushes above 255 -> clamped to 255."""
         instance, backend = self._make_instance(
@@ -145,7 +145,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         new_brightness = backend.perform_action.call_args[0][3]["brightness"]
         self.assertEqual(new_brightness, 255)
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_light_clamps_to_floor(self, mock_init):
         """Light at low brightness, step down clamps to 1% floor (not 0)."""
         instance, backend = self._make_instance(
@@ -162,7 +162,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         # floor = 0 + 255 * 0.01 = 2.55 -> round to 3
         self.assertEqual(new_brightness, 3)
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_fine_grained_at_low_brightness(self, mock_init):
         """At <= 10%, step is reduced to 1% for fine control."""
         # 25/255 ≈ 9.8%, which is <= 10%, so effective_step = 1
@@ -180,7 +180,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         # native_step = 1/100 * 255 = 2.55, 25 + 2.55 = 27.55 -> round to 28
         self.assertEqual(new_brightness, 28)
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_fine_grained_crossing_into_low(self, mock_init):
         """Stepping down from above 10% into the sub-10% zone uses 1% step."""
         # 28/255 ≈ 10.98%, but pct_after = 10.98 + (10 * -1) = 0.98 < 10
@@ -199,7 +199,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         # native_step = 1/100 * 255 = 2.55, 28 - 2.55 = 25.45 -> round to 25
         self.assertEqual(new_brightness, 25)
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_fan_percentage(self, mock_init):
         """Fan domain uses percentage 0-100, step 10 CW from 50%."""
         instance, backend = self._make_instance(
@@ -218,7 +218,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         self.assertEqual(args[2], "fan.bedroom")
         self.assertEqual(args[3]["percentage"], 60)
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_media_player_volume(self, mock_init):
         """Media player uses volume_level 0.0-1.0."""
         instance, backend = self._make_instance(
@@ -238,7 +238,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         # 0.5 + 0.1 = 0.6 (float, not rounded to int since level_max is float)
         self.assertAlmostEqual(args[3]["volume_level"], 0.6, places=5)
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_cover_position(self, mock_init):
         """Cover domain uses position 0-100."""
         instance, backend = self._make_instance(
@@ -257,7 +257,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         self.assertEqual(args[2], "cover.garage")
         self.assertEqual(args[3]["position"], 60)
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_brightness_none_treated_as_zero(self, mock_init):
         """When brightness attr is None, it's treated as 0."""
         instance, backend = self._make_instance(
@@ -276,7 +276,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         # but floor = 2.55, max(2.55, 2.55) = 2.55 -> round to 3
         self.assertEqual(new_brightness, 3)
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_integer_range_rounds(self, mock_init):
         """Integer-range domains (light, fan, cover) produce rounded integer values."""
         instance, backend = self._make_instance(
@@ -292,7 +292,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         new_brightness = backend.perform_action.call_args[0][3]["brightness"]
         self.assertIsInstance(new_brightness, int)
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_rapid_ticks_accumulate(self, mock_init):
         """Rapid CW ticks accumulate via _pending_level instead of re-reading stale state."""
         instance, backend = self._make_instance(
@@ -322,7 +322,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         # 70.2%+10=80.2% -> round(80.2/100*255)=204
         self.assertEqual(b3, 204)
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_batch_delay_debounces(self, mock_init):
         """With batch_delay > 0, rapid ticks only send the final command."""
         instance, backend = self._make_instance(
@@ -351,7 +351,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         # 50.2% +10+10+10 = 80.2% -> round(80.2/100*255) = 204
         self.assertEqual(new_brightness, 204)
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
     def test_adjust_level_display_updates_immediately(self, mock_init):
         """set_center_label is called on every tick regardless of batch_delay."""
         instance, backend = self._make_instance(
@@ -372,8 +372,10 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         # But no HA command yet
         backend.perform_action.assert_not_called()
 
-    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.BaseCore.__init__')
-    def test_adjust_level_refresh_clears_pending(self, mock_init):
+    @patch.object(LevelDial, '_set_enabled_disabled')
+    @patch.object(LevelDial, '_load_customizations')
+    @patch('HomeAssistantPlugin.actions.level_dial.level_dial.CustomizationCore.__init__')
+    def test_adjust_level_refresh_clears_pending(self, mock_init, _load_cust, _set_ed):
         """refresh() clears _pending_level so next tick re-syncs from HA state."""
         instance, backend = self._make_instance(
             mock_init,
@@ -391,6 +393,7 @@ class TestLevelDialAdjustLevel(unittest.TestCase):
         instance.settings = Mock()
         instance.settings.get_entity = Mock(return_value="light.desk")
         instance.settings.get_label = Mock(return_value="Desk")
+        instance.settings.get_customizations = Mock(return_value=[])
         instance.set_top_label = Mock()
         instance.set_center_label = Mock()
         instance.set_media = Mock()
