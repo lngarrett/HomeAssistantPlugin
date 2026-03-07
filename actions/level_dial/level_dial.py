@@ -388,6 +388,7 @@ class LevelDial(CustomizationCore):
         config = level_const.DOMAIN_CONFIGS.get(domain)
         if not config:
             self.set_center_label("?")
+            self.set_media()
             return
 
         # Default icon from entity state, with domain-appropriate fallback
