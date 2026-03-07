@@ -124,12 +124,13 @@ class LevelDial(CustomizationCore):
 
     def __init__(self, *args, **kwargs):
         super().__init__(
+            *args,
             window_implementation=LevelDialWindow,
             customization_implementation=LevelDialCustomization,
             row_implementation=LevelDialRow,
             settings_implementation=LevelDialSettings,
             track_entity=True,
-            *args, **kwargs
+            **kwargs
         )
 
     def _should_force_label(self, position: str) -> bool:
