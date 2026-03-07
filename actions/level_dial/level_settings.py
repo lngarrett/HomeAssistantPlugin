@@ -1,5 +1,7 @@
 """Module to manage Level Dial settings."""
 
+import copy
+
 from HomeAssistantPlugin.actions.level_dial import level_const
 from HomeAssistantPlugin.actions.cores.customization_core import customization_const
 from HomeAssistantPlugin.actions.cores.customization_core.customization_settings import CustomizationSettings
@@ -21,7 +23,7 @@ class LevelDialSettings(CustomizationSettings):
 
         if not self._action.get_settings().get(level_const.SETTING_LEVEL):
             settings = self._action.get_settings()
-            settings[level_const.SETTING_LEVEL] = DEFAULT_SETTINGS.copy()
+            settings[level_const.SETTING_LEVEL] = copy.deepcopy(DEFAULT_SETTINGS)
             self._action.set_settings(settings)
 
     def get_step(self) -> int:

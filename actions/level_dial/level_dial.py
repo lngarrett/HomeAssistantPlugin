@@ -53,13 +53,16 @@ def _get_icon_image(icon_name: str, color_hex: str, opacity: float = 1.0):
         f'<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 24 24">'
         f'<path d="{path_d}" fill="{color_hex}" opacity="{opacity}"/></svg>'
     )
+    if cairosvg is None or Image is None:
+        return None
+
     try:
         png_data = cairosvg.svg2png(bytestring=svg.encode("utf-8"), output_width=300, output_height=300)
         img = Image.open(BytesIO(png_data)).convert("RGBA")
         _ICON_CACHE[cache_key] = img
         return img.copy()
     except Exception as e:
-        log.error("LevelDial icon render failed: %s", e)
+        log.error("LevelDial icon render failed: {}", e)
         return None
 
 
