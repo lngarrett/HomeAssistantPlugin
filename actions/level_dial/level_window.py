@@ -72,21 +72,23 @@ class LevelDialWindow(CustomizationWindow):
             return
 
         if self.check_icon.get_active():
-            icon = self.icon.get_text()
+            raw_icon = self.icon.get_text()
 
-            if icon.startswith("mdi:"):
-                icon = icon[4:]
+            if raw_icon.startswith("mdi:"):
+                icon = raw_icon[4:]
+            else:
+                icon = raw_icon
 
             if icon not in self.icons:
                 self.icon.add_css_class(level_const.ERROR)
                 return
+        else:
+            icon = None
 
         if not self.check_icon.get_active() and not self.check_color.get_active():
             self.check_icon.add_css_class(level_const.ERROR)
             self.check_color.add_css_class(level_const.ERROR)
             return
-
-        icon = self.icon.get_text() if self.check_icon.get_active() else None
         color = self.color.get_rgba() if self.check_color.get_active() else None
         color_list = customization_helper.convert_rgba_to_color_list(color) if color else None
 
